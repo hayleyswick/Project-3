@@ -27,12 +27,7 @@ public class Inventory extends BikePart {
 	}
 	
 	public boolean equals(Inventory other) {
-		if(this.getID() == other.getID()) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return getBikePart().getID() == other.getBikePart().getID();
 	}
 	
 	public long getQuantity() {
