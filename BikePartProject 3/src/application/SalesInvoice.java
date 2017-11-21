@@ -4,8 +4,12 @@ import java.util.Calendar;
 
 public class SalesInvoice implements Serializable
 {
-
-  /**
+	private String invoice = "";
+	private String bikeShopName = "";
+	private Calendar date;
+	private String signatureByPerson = "";
+	private double totalSales;
+	/**
 	 * Generates a sales invoice given an ArrayList of bike parts, the name of a bike shop a calendar object to show when the invoice was
 	 * created and who it was signed by
 	 * @param bp the BikePart ArrayList
@@ -14,9 +18,11 @@ public class SalesInvoice implements Serializable
 	 * @param signatureBy who the sale was signed by
 	 * @return the formatted invoice
 	 */
-	public String generateSalesInvoice(ArrayList<BikePart> bp, String bikeShop, Calendar d, String signatureBy)
+	public String generateSalesInvoice(ArrayList<Inventory> bp, String bikeShop, Calendar d, String signatureBy)
 	{
-		String invoice = "";
+		bikeShopName = bikeShop;
+		date = d;
+		signatureByPerson = signatureBy;
 		for(int x=0;x<75;x++)
 			invoice+="#";
 		
@@ -24,23 +30,53 @@ public class SalesInvoice implements Serializable
 		invoice+="Part Name \tPart Number \tPrice \tSales Price \tQnty \tTotal Cost\n";
 		double[] total = new double[bp.size()];
 		int x = 0;
-		for(BikePart b : bp)
+		for(Inventory b : bp)
 		{
-			if(b.isOnSale())
-				total[x] = b.getSalePrice()*b.getQuantity();
+			if(b.getBikePart().getIsOnSale())
+				total[x] = b.getBikePart().getSalePrice()*b.getQuantity();
 			else
 				total[x] = b.getPrice()*b.getQuantity();
-			invoice+=b.getPartName()+" \t"+b.getPartNum()+" \t"+b.getPrice()+" \t"+b.getSalePrice()+" \t"+b.getQuantity()+" \t"+total[x]+"\n";
+			invoice+=b.getName()+" \t"+b.getBikePart().getID()+" \t"+b.getBikePart().getCost()+" \t"+b.getBikePart().getSalePrice()
+					+" \t"+b.getQuantity()+" \t"+total[x]+"\n";
 			
 		}
 		double overallTotal = 0;
 		for(Double t : total)
 			overallTotal+=t;
 		invoice+="Total:\t"+overallTotal+"\n";
+		totalSales = overallTotal;
 		invoice+="\nSignature Recived By: "+signatureBy+"\n";
 		for(int n=0;n<75;n++)
 			invoice+="#";
 		
 		return invoice;
+	}
+	public String getInvoice() 
+	{
+		return invoice;
+	}
+	public String getBikeShopName() 
+	{
+		return bikeShopName;
+	}
+	public Calendar getDate() 
+	{
+		return date;
+	}
+	public void setDate(Calendar date) 
+	{
+		this.date = date;
+	}
+	public String getSignature() 
+	{
+		return signatureByPerson;
+	}
+	public void setSignature(String signatureByPerson) 
+	{
+		this.signatureByPerson = signatureByPerson;
+	}
+	public double getTotalSales()
+	{
+		return totalSales;
 	}
 }
