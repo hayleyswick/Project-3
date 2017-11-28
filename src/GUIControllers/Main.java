@@ -24,9 +24,14 @@ public class Main extends Application {
 
     public static int userIndex = -1;
 
+    public static Stage userStage = new Stage();
+
+
+
     public void start(Stage primaryStage) throws Exception {
 
 
+        /*
         ObjectInputStream objectinputstream = null;
         try {
             FileInputStream streamIn = new FileInputStream("src/GUIControllers/fleet.ser");
@@ -40,6 +45,7 @@ public class Main extends Application {
                 objectinputstream.close();
             }
         }
+        */
 
 
         SysAdmin defaultAdmin = new SysAdmin("admin", "minda",
@@ -60,7 +66,7 @@ public class Main extends Application {
         userList.add(testSalesAssociate);
         userList.add(testUser);
 
-        /*
+
 
         Inventory testInv1 = new Inventory(new BikePart("test1",123,10,5,false),5);
         Inventory testInv2 = new Inventory(new BikePart("test2",456,10,5,false),5);
@@ -72,13 +78,11 @@ public class Main extends Application {
                 + testInv1.getBikePart().getIsOnSale()+", Quantity: "+testInv1.getQuantity()+".\n");
 
 
-        Warehouse testWH = new Warehouse();
-        testWH.addInventory(testInv1);
-        testWH.addInventory(testInv2);
-        testWH.addInventory(testInv3);
 
-        mainDB.addWarehouse(testWH);
-*/
+        mainDB.addInventory(testInv1);
+        mainDB.addInventory(testInv2);
+        mainDB.addInventory(testInv3);
+
 
 
         Parent root = FXMLLoader.load(getClass().getResource("LoginController.fxml"));
@@ -89,7 +93,6 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(we -> {
             ObjectOutputStream oos = null;
             FileOutputStream fout = null;
-
 
             try {
                 fout = new FileOutputStream("src/GUIControllers/fleet.ser");
