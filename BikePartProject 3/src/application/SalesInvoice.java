@@ -5,6 +5,7 @@ import java.util.Calendar;
 public class SalesInvoice implements Serializable
 {
 	private String invoice = "";
+	private String seller = "";
 	private String bikeShopName = "";
 	private Calendar date;
 	private String signatureByPerson = "";
@@ -78,6 +79,16 @@ public class SalesInvoice implements Serializable
 	public double getTotalSales()
 	{
 		return totalSales;
+	}
+	
+	public void setSeller(String s)
+	{
+		seller = s;
+	}
+	
+	public String getSeller()
+	{
+		return seller;
 	}
 	
 	public int compareTo(SalesInvoice arg0) 
