@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Warehouse implements Serializable{
+public abstract class Warehouse implements Serializable{
 
     private ArrayList<Inventory> db = new ArrayList<>();
 
