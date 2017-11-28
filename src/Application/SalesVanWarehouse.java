@@ -1,8 +1,9 @@
 package Application;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class SalesVanWarehouse extends Warehouse {
+public class SalesVanWarehouse extends Warehouse implements Serializable {
 	
 	private MainWareHouse mainwh;
 	private String name;

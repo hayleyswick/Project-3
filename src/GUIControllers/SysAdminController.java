@@ -1,19 +1,20 @@
 package GUIControllers;
 
+import Users.SysAdmin;
 import Users.User;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 
+
 public class SysAdminController {
-
-
 
     @FXML
     private TextField createUsername;
@@ -67,31 +68,33 @@ public class SysAdminController {
                 if (Main.userList.get(i).getUsername().equals(createUsername.getText())) {
                     exists = true;
                 }
-
-                if (!exists) {
-                    User newUser = new User(createUsername.getText(), createPassword.getText(), createFirstName.getText(),
-                            createLastName.getText(), createEmail.getText(), createPhoneNumber.getText());
-
-                    switch (createUserChoice.getValue().toString()) {
-
-                        case "Default User":
-                            Main.userList.add(newUser);
-                            break;
-
-                        case "System Admin":
-
-                            break;
-
-
-                    }
-
-                }
-
             }
 
+            User newUser = new User(createUsername.getText(), createPassword.getText(), createFirstName.getText(),
+                    createLastName.getText(), createEmail.getText(), createPhoneNumber.getText());
+
+            switch (createUserChoice.getValue().toString()) {
+
+                case "Default User":
+                    if (!exists) {
+                        Main.userList.add(newUser);
+                        createOutput.appendText("Default User " + newUser.getUsername() + " created.\n");
+                    } else {
+                        createOutput.appendText("User " + createUsername.getText() + " already exists.\n");
+                    }
+                    break;
+
+                case "System Admin":
+
+                    break;
+
+            }
         }
 
     }
+
+
+
 
     @FXML
     private TableView deleteUserList;

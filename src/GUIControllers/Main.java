@@ -26,18 +26,24 @@ public class Main extends Application {
 
     public static Stage userStage = new Stage();
 
+    public static Stage loginStage = new Stage();
 
-
-    public void start(Stage primaryStage) throws Exception {
-
-
+    public void start(Stage loginStage) throws Exception {
 
         ObjectInputStream objectinputstream = null;
+
         try {
-            FileInputStream streamIn = new FileInputStream("src/GUIControllers/fleet.ser");
+            FileInputStream streamIn = new FileInputStream("src/GUIControllers/DBinventory.ser");
             objectinputstream = new ObjectInputStream(streamIn);
             ArrayList<Inventory> mainInv = (ArrayList<Inventory>) objectinputstream.readObject();
             mainDB.setDB(mainInv);
+            streamIn = new FileInputStream("src/GUIControllers/fleet.ser");
+            objectinputstream = new ObjectInputStream(streamIn);
+            ArrayList<Warehouse> fleet = (ArrayList<Warehouse>) objectinputstream.readObject();
+            mainDB.setFleet(fleet);
+            streamIn = new FileInputStream("src/GUIControllers/users.ser");
+            objectinputstream = new ObjectInputStream(streamIn);
+            userList = (ArrayList<User>) objectinputstream.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -45,8 +51,7 @@ public class Main extends Application {
                 objectinputstream.close();
             }
         }
-
-
+        /*
 
         SysAdmin defaultAdmin = new SysAdmin("admin", "minda",
                 "test@gmail.com", "joe", "schmoe", "7037328121");
@@ -66,38 +71,49 @@ public class Main extends Application {
         userList.add(testSalesAssociate);
         userList.add(testUser);
 
+        /*
 
-/*
+
         Inventory testInv1 = new Inventory(new BikePart("test1",123,10,5,false),5);
         Inventory testInv2 = new Inventory(new BikePart("test2",456,10,5,false),5);
         Inventory testInv3 = new Inventory(new BikePart("test3",789,10,5,true),5);
 
 
-        System.out.println("Name: " + testInv1.getBikePart().getName() + ", ID: " + testInv1.getBikePart().getID() + ", Price: $"
-                + testInv1.getBikePart().getPrice() + ", Sale Price: $" + testInv1.getBikePart().getSalePrice() + ", On Sale: "
-                + testInv1.getBikePart().getIsOnSale()+", Quantity: "+testInv1.getQuantity()+".\n");
+
 
 
 
         mainDB.addInventory(testInv1);
         mainDB.addInventory(testInv2);
         mainDB.addInventory(testInv3);
+        */
+
+        System.out.println("Name: " + mainDB.getDB().get(0).getBikePart().getName() + ", ID: " + mainDB.getDB().get(0).getBikePart().getID() + ", Price: $"
+                + mainDB.getDB().get(0).getBikePart().getPrice() + ", Sale Price: $" + mainDB.getDB().get(0).getBikePart().getSalePrice() + ", On Sale: "
+                + mainDB.getDB().get(0).getBikePart().getIsOnSale() + ", Quantity: " + mainDB.getDB().get(0).getQuantity() + ".\n");
 
 
-*/
         Parent root = FXMLLoader.load(getClass().getResource("LoginController.fxml"));
-        primaryStage.setTitle("User Login");
-        primaryStage.setScene(new Scene(root, 325, 275));
-        primaryStage.show();
+        loginStage.setTitle("User Login");
+        loginStage.setScene(new Scene(root, 325, 275));
+        loginStage.show();
 
-        primaryStage.setOnCloseRequest(we -> {
-            ObjectOutputStream oos = null;
+        loginStage.setOnCloseRequest(we -> {
+
             FileOutputStream fout = null;
+            ObjectOutputStream oos = null;
 
             try {
-                fout = new FileOutputStream("src/GUIControllers/fleet.ser");
+                fout = new FileOutputStream("src/GUIControllers/DBinventory.ser");
                 oos = new ObjectOutputStream(fout);
                 oos.writeObject(mainDB.getDB());
+                fout = new FileOutputStream("src/GUIControllers/fleet.ser");
+                oos = new ObjectOutputStream(fout);
+                oos.writeObject(mainDB.getTotalInventory());
+                fout = new FileOutputStream("src/GUIControllers/users.ser");
+                oos = new ObjectOutputStream(fout);
+                oos.writeObject(userList);
+
 
             } catch (Exception ex) {
                 ex.printStackTrace();

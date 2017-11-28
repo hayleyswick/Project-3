@@ -20,6 +20,10 @@ public abstract class Warehouse implements Serializable{
         return db;
     }
 
+    public void setDB(ArrayList<Inventory> db) {
+        this.db = db;
+    }
+
     public Iterator<Inventory> dbIterator() {
         return db.iterator();
     }
