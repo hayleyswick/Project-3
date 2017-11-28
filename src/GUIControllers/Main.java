@@ -31,13 +31,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
-        /*
+
         ObjectInputStream objectinputstream = null;
         try {
             FileInputStream streamIn = new FileInputStream("src/GUIControllers/fleet.ser");
             objectinputstream = new ObjectInputStream(streamIn);
-            ArrayList<Warehouse> fleet = (ArrayList<Warehouse>) objectinputstream.readObject();
-            mainDB.setFleet(fleet);
+            ArrayList<Inventory> mainInv = (ArrayList<Inventory>) objectinputstream.readObject();
+            mainDB.setDB(mainInv);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -45,7 +45,7 @@ public class Main extends Application {
                 objectinputstream.close();
             }
         }
-        */
+
 
 
         SysAdmin defaultAdmin = new SysAdmin("admin", "minda",
@@ -67,7 +67,7 @@ public class Main extends Application {
         userList.add(testUser);
 
 
-
+/*
         Inventory testInv1 = new Inventory(new BikePart("test1",123,10,5,false),5);
         Inventory testInv2 = new Inventory(new BikePart("test2",456,10,5,false),5);
         Inventory testInv3 = new Inventory(new BikePart("test3",789,10,5,true),5);
@@ -84,7 +84,7 @@ public class Main extends Application {
         mainDB.addInventory(testInv3);
 
 
-
+*/
         Parent root = FXMLLoader.load(getClass().getResource("LoginController.fxml"));
         primaryStage.setTitle("User Login");
         primaryStage.setScene(new Scene(root, 325, 275));
@@ -97,7 +97,7 @@ public class Main extends Application {
             try {
                 fout = new FileOutputStream("src/GUIControllers/fleet.ser");
                 oos = new ObjectOutputStream(fout);
-                oos.writeObject(mainDB.getTotalInventory());
+                oos.writeObject(mainDB.getDB());
 
             } catch (Exception ex) {
                 ex.printStackTrace();
