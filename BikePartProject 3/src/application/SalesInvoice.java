@@ -79,4 +79,14 @@ public class SalesInvoice implements Serializable
 	{
 		return totalSales;
 	}
+	
+	public int compareTo(SalesInvoice arg0) 
+	{
+		return this.getDate().compareTo(arg0.getDate());
+	}
+	
+	public String toString()
+	{
+		return invoice;
+	}
 }
