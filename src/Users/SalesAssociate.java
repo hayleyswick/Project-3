@@ -51,9 +51,6 @@ public class SalesAssociate extends User {
 		{
 			String line = input.nextLine();
 			String[] elements = line.split(",");
-//			BikePart b = new BikePart(elements[0],Integer.parseInt(elements[1]),Double.parseDouble(elements[2]),Double.parseDouble(elements[3]),
-//					Boolean.parseBoolean(elements[4]));
-
 			i.add(new Inventory(new BikePart(elements[0],Integer.parseInt(elements[1]),Double.parseDouble(elements[2]),Double.parseDouble(elements[3]),
 					Boolean.parseBoolean(elements[4])),Integer.parseInt(elements[5])));
 		}
@@ -70,57 +67,11 @@ public class SalesAssociate extends User {
 		invoices.add(invoice);
 		
 	}
-
-//	public void loadVan(String file, ArrayList<Warehouse> w)
-//	{
-//		moveParts(file, w);
-//		s.addParts(bp);
-//	}
 	
 	public ArrayList<SalesInvoice> getInvoices()
 	{
 		return invoices;
 	}
-
-//	private void moveParts(String file, ArrayList<Warehouse> w)
-//	{
-//		try
-//		{
-//			File f = new File(file);
-//			Scanner input = new Scanner(f);
-//			String warehouseName = input.nextLine();
-//			while(input.hasNextLine())
-//			{
-//				String line = input.nextLine();
-//				String[] elements = line.split(",");
-//				String partName = elements[0];
-//				int quantity = Integer.parseInt(elements[1]);
-//				for(Warehouse wh : w)
-//				{
-//					if(wh.getName().equals(warehouseName))
-//					{
-//						for(int x=0;x<wh.getSize();x++)
-//						{
-//							if(wh.getPartName(x).equals(partName))
-//							{
-//								bp.add(new BikePart(wh.getPartName(x),wh.getPartNumber(x),wh.getPartPrice(x),wh.getPartSalePrice(x),
-//										wh.getPartOnSale(x),quantity));
-//								break;
-//							}
-//						}
-//						for(int x=0;x<quantity;x++)
-//						{
-//							wh.sellPartByName(partName);
-//						}
-//					}
-//				}
-//			}
-//		}
-//		catch(FileNotFoundException e)
-//		{
-//			System.out.println(e);
-//		}
-//	}
 	
 	public void writeInvoices()
 	{
