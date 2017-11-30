@@ -17,6 +17,7 @@ public class SalesAssociate extends User {
 	private ArrayList<SalesInvoice> invoices = new ArrayList<SalesInvoice>();
 	private ArrayList<Inventory> inventory = new ArrayList<Inventory>();
 	private SalesVanWarehouse s;
+	static final long serialVersionUID = 8;
 	
     public SalesAssociate(String username, String password, String email,
                     String firstName, String lastName, String phoneNumber) {
@@ -38,6 +39,7 @@ public class SalesAssociate extends User {
     		this.s = s;
     		inventory.addAll(s.getDB());
     }
+    
     
     public void sellToBikeShop(String bikeShopName, String signatureBy, String fileOfPartsToSell) throws FileNotFoundException
 	{
@@ -67,6 +69,48 @@ public class SalesAssociate extends User {
 		invoices.add(invoice);
 		
 	}
+    
+    public void loadVan(String file, MainWareHouse w)
+    {
+    		moveParts(file, w);
+    		s.setDB(inventory);
+    }
+    
+    private void moveParts(String file, MainWareHouse warehouse)
+    {
+    		ArrayList<Warehouse>w = new ArrayList<Warehouse>();
+    		Warehouse main = w.get(0);
+    		ArrayList<Inventory> inventoryW = new ArrayList<Inventory>();
+    		inventoryW.addAll(main.getDB());
+    		ArrayList<Inventory> inventoryS = new ArrayList<Inventory>();
+    		inventoryS.addAll(s.getDB());
+    		w.addAll(warehouse.getTotalInventory());
+    		try
+    		{
+    			File f = new File(file);
+    			Scanner input = new Scanner(f);
+    			while(input.hasNextLine())
+    			{
+    				String line = input.nextLine();
+    				String[] elements = line.split(",");
+    				String partName = elements[0];
+    				int quantity = Integer.parseInt(elements[1]);
+    				for(Inventory i1 : inventoryW)
+    				{
+    					if(i1.getBikePart().getName().equals(partName))
+						for(Inventory i2 : inventoryS)
+						{
+							Inventory temp = new Inventory(i1.getBikePart(),quantity);
+							inventory.add(temp);
+						}
+    				}
+    			}
+    		}
+    		catch(FileNotFoundException e)
+    		{
+    			System.out.println(e);
+    		}
+    }
 	
 	public ArrayList<SalesInvoice> getInvoices()
 	{
