@@ -41,7 +41,7 @@ public class SalesInvoice implements Serializable
 				total[x] = b.getPrice()*b.getQuantity();
 			invoice+=b.getName()+" \t"+b.getBikePart().getID()+" \t"+b.getBikePart().getCost()+" \t"+b.getBikePart().getSalePrice()
 					+" \t"+b.getQuantity()+" \t"+total[x]+"\n";
-			
+			x++;
 		}
 		double overallTotal = 0;
 		for(Double t : total)
