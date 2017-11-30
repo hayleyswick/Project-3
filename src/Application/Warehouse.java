@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class Warehouse implements Serializable{
+public abstract class Warehouse implements Serializable {
+
+    static final long serialVersionUID = 23456;
 
     private ArrayList<Inventory> db = new ArrayList<>();
 
@@ -46,5 +48,8 @@ public abstract class Warehouse implements Serializable{
             index++;
         }
     }
+
+
+
 
 }

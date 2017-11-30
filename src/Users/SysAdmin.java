@@ -3,6 +3,7 @@ package Users;
 import GUIControllers.Main;
 
 public class SysAdmin extends User {
+    static final long serialVersionUID = 7;
 
 
     public SysAdmin(String username, String password, String email,
@@ -29,6 +30,15 @@ public class SysAdmin extends User {
             }
         }
         return false;
+    }
+
+    public User findUser(User user) {
+        for (User u : Main.userList) {
+            if (user.getUsername().equals(u.getUsername())) {
+                return u;
+            }
+        }
+        return null;
     }
 
 
@@ -71,7 +81,7 @@ public class SysAdmin extends User {
 
     }
 
-    public void addSysAdmin(User user){
+    public void addSysAdmin(User user) {
         boolean replaced = false;
         //check if username exist, if it does, replace at the index
         SysAdmin temp = new SysAdmin(user);
@@ -85,9 +95,24 @@ public class SysAdmin extends User {
             Main.userList.add(temp);
         }
 
-
     }
 
+    public void addSalesAssociate(User user) {
+        boolean replaced = false;
+        //check if username exist, if it does, replace at the index
+        SalesAssociate temp = new SalesAssociate(user);
+        for (User u : Main.userList) {
+            if (temp.getUsername().equals(u.getUsername())) {
+                u = temp;
+                replaced = true;
+            }
+        }
+        if (!replaced) {
+            Main.userList.add(temp);
+        }
+
+
+    }
 
 
 }

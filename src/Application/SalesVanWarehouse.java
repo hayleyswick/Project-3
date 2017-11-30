@@ -1,19 +1,35 @@
 package Application;
 
+import Users.SalesAssociate;
+
 import java.io.Serializable;
 import java.util.Iterator;
 
 public class SalesVanWarehouse extends Warehouse implements Serializable {
 	
-	private MainWareHouse mainwh;
+
 	private String name;
+	private SalesAssociate operator;
+	static final long serialVersionUID = 34567;
 	
-	public SalesVanWarehouse(String n) {
-		mainwh.addWarehouse(this);
-		this.name = n;
+	public SalesVanWarehouse(String n, SalesAssociate operator) {
+		this.setName(n);
+		this.setOperator(operator);
 	}
 
-	public String getName() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public SalesAssociate getOperator() {
+        return operator;
+    }
+
+    public void setOperator(SalesAssociate operator) {
+        this.operator = operator;
+    }
+
+    public String getName() {
 		return name;
 	}
 	

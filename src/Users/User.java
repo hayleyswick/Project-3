@@ -1,5 +1,7 @@
 package Users;
 
+import GUIControllers.Main;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -10,6 +12,7 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    static final long serialVersionUID = 12345;
 
     public User() {
     }
@@ -78,6 +81,8 @@ public class User implements Serializable {
         } else
             return false;
     }
+
+
 
 
 }

@@ -1,5 +1,7 @@
 package GUIControllers;
 
+import Application.SalesVanWarehouse;
+import Users.SalesAssociate;
 import Users.SysAdmin;
 import Users.User;
 import javafx.beans.value.ChangeListener;
@@ -8,13 +10,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 
 public class SysAdminController {
+
+    SysAdmin currentUser = (SysAdmin) Main.userList.get(Main.userIndex);
 
     @FXML
     private TextField createUsername;
@@ -59,7 +67,13 @@ public class SysAdminController {
             for (int i = 0; i < Main.userList.size(); i++) {
                 createOutput.appendText(Main.userList.get(i).getUsername() + "\n");
 
+
             }
+            for (int i = 0; i < Main.mainDB.getTotalInventory().size(); i++) {
+                SalesVanWarehouse t = (SalesVanWarehouse) Main.mainDB.getTotalInventory().get(i);
+                createOutput.appendText(t.getName() + "\n");
+            }
+
             createOutput.appendText("Please fill out all the required fields.\n");
 
         } else {
@@ -85,15 +99,28 @@ public class SysAdminController {
                     break;
 
                 case "System Admin":
+                    currentUser.addSysAdmin(newUser);
+                    break;
 
+                case "Office Manager":
+                    currentUser.addOfficeManager(newUser);
+                    break;
+
+                case "Warehouse Manager":
+                    currentUser.addWHManager(newUser);
+                    break;
+
+                case "Sales Associate":
+                    currentUser.addSalesAssociate(newUser);
+                    SalesAssociate sales = (SalesAssociate)currentUser.findUser(newUser);
+                    SalesVanWarehouse temp = new SalesVanWarehouse(createVanName.getText(),sales);
+                    Main.mainDB.addWarehouse(temp);
                     break;
 
             }
         }
 
     }
-
-
 
 
     @FXML
@@ -147,8 +174,6 @@ public class SysAdminController {
                     Main.userList.remove(index);
 
                 }
-
-
                 break;
         }
 
@@ -158,6 +183,8 @@ public class SysAdminController {
 
     @FXML
     private void initialize() throws IOException {
+
+
         createUserChoice.setValue("Default User");
         createUserChoice.setItems(userType);
         createVanName.setVisible(false);
@@ -177,6 +204,40 @@ public class SysAdminController {
         deleteUserType.setCellValueFactory(new PropertyValueFactory("User Type"));
         deleteUsernameColumn.setCellValueFactory(new PropertyValueFactory("Username"));
     }
+
+
+    /*
+
+    {
+
+        FileOutputStream fout = null;
+        ObjectOutputStream oos = null;
+
+        try {
+            fout = new FileOutputStream("src/GUIControllers/DBinventory.ser");
+            oos = new ObjectOutputStream(fout);
+            oos.writeObject(Main.mainDB.getDB());
+            fout = new FileOutputStream("src/GUIControllers/fleet.ser");
+            oos = new ObjectOutputStream(fout);
+            oos.writeObject(Main.mainDB.getTotalInventory());
+            fout = new FileOutputStream("src/GUIControllers/users.ser");
+            oos = new ObjectOutputStream(fout);
+            oos.writeObject(Main.userList);
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+     */
 
 
 }

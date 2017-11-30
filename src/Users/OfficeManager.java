@@ -1,6 +1,13 @@
 package Users;
 
+import Application.Inventory;
+import Application.Warehouse;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class OfficeManager extends User {
+    static final long serialVersionUID = 9;
 
     public OfficeManager(String username, String password, String email,
                          String firstName, String lastName, String phoneNumber) {
@@ -15,6 +22,23 @@ public class OfficeManager extends User {
         this.setFirstName(user.getFirstName());
         this.setLastName(user.getLastName());
         this.setPhoneNumber(user.getPhoneNumber());
+    }
 
+    public Inventory examinePartName(String name, ArrayList<Inventory> inv) {
+        for (Inventory i : inv) {
+            if (i.getBikePart().getName().equals(name)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public Inventory examinePartID(Long ID, ArrayList<Inventory> inv) {
+        for (Inventory i : inv) {
+            if (i.getBikePart().getID()==ID) {
+                return i;
+            }
+        }
+        return null;
     }
 }

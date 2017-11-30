@@ -7,6 +7,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.util.ArrayList;
+
 
 public class OfficeManagerController {
 
@@ -24,7 +26,15 @@ public class OfficeManagerController {
 
         boolean exists = false;
 
+        Inventory examine;
+
+        ArrayList<Inventory> examineList;
+
         if (!examineTextField.getText().trim().equals("")) {
+
+
+
+            /*
 
             for (Warehouse w : Main.mainDB.getTotalInventory()) {
                 for (Inventory b : w.getDB()) {
@@ -37,6 +47,7 @@ public class OfficeManagerController {
                 }
 
             }
+            */
             if (!exists) {
                 examineTextArea.appendText("No part exists with the name " + examineTextField.getText() + ".\n");
             }

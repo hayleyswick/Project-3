@@ -1,10 +1,7 @@
 package GUIControllers;
 
 import Users.*;
-import Application.BikePart;
-import Application.MainWareHouse;
-import Application.Warehouse;
-import Application.Inventory;
+import Application.*;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -31,62 +28,63 @@ public class Main extends Application {
     public void start(Stage loginStage) throws Exception {
 
         ObjectInputStream objectinputstream = null;
+        boolean test = false;
 
-        try {
-            FileInputStream streamIn = new FileInputStream("src/GUIControllers/DBinventory.ser");
-            objectinputstream = new ObjectInputStream(streamIn);
-            ArrayList<Inventory> mainInv = (ArrayList<Inventory>) objectinputstream.readObject();
-            mainDB.setDB(mainInv);
-            streamIn = new FileInputStream("src/GUIControllers/fleet.ser");
-            objectinputstream = new ObjectInputStream(streamIn);
-            ArrayList<Warehouse> fleet = (ArrayList<Warehouse>) objectinputstream.readObject();
-            mainDB.setFleet(fleet);
-            streamIn = new FileInputStream("src/GUIControllers/users.ser");
-            objectinputstream = new ObjectInputStream(streamIn);
-            userList = (ArrayList<User>) objectinputstream.readObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (objectinputstream != null) {
-                objectinputstream.close();
+        if (!test) {
+            try {
+                FileInputStream streamIn = new FileInputStream("src/GUIControllers/DBinventory.ser");
+                objectinputstream = new ObjectInputStream(streamIn);
+                ArrayList<Inventory> mainInv = (ArrayList<Inventory>) objectinputstream.readObject();
+                mainDB.setDB(mainInv);
+                streamIn = new FileInputStream("src/GUIControllers/fleet.ser");
+                objectinputstream = new ObjectInputStream(streamIn);
+                ArrayList<Warehouse> fleet = (ArrayList<Warehouse>) objectinputstream.readObject();
+                mainDB.setFleet(fleet);
+                streamIn = new FileInputStream("src/GUIControllers/users.ser");
+                objectinputstream = new ObjectInputStream(streamIn);
+                userList = (ArrayList<User>) objectinputstream.readObject();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (objectinputstream != null) {
+                    objectinputstream.close();
+                }
             }
         }
-        /*
-
-        SysAdmin defaultAdmin = new SysAdmin("admin", "minda",
-                "test@gmail.com", "joe", "schmoe", "7037328121");
-        OfficeManager testOfficeManager = new OfficeManager("omanager", "test1",
-                "test@gmail.com", "joe", "schmoe", "7037328121");
-        WHManager testWHManager = new WHManager("whmanager", "test2",
-                "test@gmail.com", "joe", "schmoe", "7037328121");
-        SalesAssociate testSalesAssociate = new SalesAssociate("sassociate", "test3",
-                "test@gmail.com", "joe", "schmoe", "7037328121");
-        User testUser = new User("user", "test4",
-                "test@gmail.com", "joe", "schmoe", "7037328121");
 
 
-        userList.add(defaultAdmin);
-        userList.add(testOfficeManager);
-        userList.add(testWHManager);
-        userList.add(testSalesAssociate);
-        userList.add(testUser);
-
-        /*
-
-
-        Inventory testInv1 = new Inventory(new BikePart("test1",123,10,5,false),5);
-        Inventory testInv2 = new Inventory(new BikePart("test2",456,10,5,false),5);
-        Inventory testInv3 = new Inventory(new BikePart("test3",789,10,5,true),5);
-
+        if (test) {
+            SysAdmin defaultAdmin = new SysAdmin("admin", "minda",
+                    "test@gmail.com", "joe", "schmoe", "7037328121");
+            OfficeManager testOfficeManager = new OfficeManager("omanager", "test1",
+                    "test@gmail.com", "joe", "schmoe", "7037328121");
+            WHManager testWHManager = new WHManager("whmanager", "test2",
+                    "test@gmail.com", "joe", "schmoe", "7037328121");
+            SalesAssociate testSalesAssociate = new SalesAssociate("sassociate", "test3",
+                    "test@gmail.com", "joe", "schmoe", "7037328121");
+            User testUser = new User("user", "test4",
+                    "test@gmail.com", "joe", "schmoe", "7037328121");
 
 
+            userList.add(defaultAdmin);
+            userList.add(testOfficeManager);
+            userList.add(testWHManager);
+            userList.add(testSalesAssociate);
+            userList.add(testUser);
+            SalesVanWarehouse van1 = new SalesVanWarehouse("Van1",testSalesAssociate);
 
+            Inventory testInv1 = new Inventory(new BikePart("test1", 123, 10, 5, false), 5);
+            Inventory testInv2 = new Inventory(new BikePart("test2", 456, 10, 5, false), 5);
+            Inventory testInv3 = new Inventory(new BikePart("test3", 789, 10, 5, true), 5);
+            Inventory testInv4 = new Inventory(new BikePart("test4", 000, 10, 5, false), 5);
 
+            mainDB.addInventory(testInv1);
+            mainDB.addInventory(testInv2);
+            mainDB.addInventory(testInv3);
+            van1.addInventory(testInv4);
+            mainDB.addWarehouse(van1);
 
-        mainDB.addInventory(testInv1);
-        mainDB.addInventory(testInv2);
-        mainDB.addInventory(testInv3);
-        */
+        }
 
         System.out.println("Name: " + mainDB.getDB().get(0).getBikePart().getName() + ", ID: " + mainDB.getDB().get(0).getBikePart().getID() + ", Price: $"
                 + mainDB.getDB().get(0).getBikePart().getPrice() + ", Sale Price: $" + mainDB.getDB().get(0).getBikePart().getSalePrice() + ", On Sale: "
