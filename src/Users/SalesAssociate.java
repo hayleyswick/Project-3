@@ -43,7 +43,6 @@ public class SalesAssociate extends User {
     
     public void sellToBikeShop(String bikeShopName, String signatureBy, String fileOfPartsToSell) throws FileNotFoundException
 	{
-		Calendar date = Calendar.getInstance();
 		ArrayList<Inventory>i = new ArrayList<Inventory>();
 		File f = new File(fileOfPartsToSell);
 		Scanner input = new Scanner(f);
@@ -64,7 +63,7 @@ public class SalesAssociate extends User {
 		
 		SalesInvoice invoice = new SalesInvoice();
 		invoice.setSeller(this.getFirstName()+" "+this.getLastName());
-		invoice.generateSalesInvoice(i,bikeShopName,date,signatureBy);
+		invoice.generateSalesInvoice(i,bikeShopName,signatureBy);
 		System.out.println(invoice.getInvoice());
 		invoices.add(invoice);
 		
