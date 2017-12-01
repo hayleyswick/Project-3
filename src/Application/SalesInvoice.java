@@ -1,9 +1,12 @@
 package Application;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
 {
@@ -11,7 +14,9 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
 	private String seller = "";
 	private String bikeShopName = "";
 	private Calendar date;
+	private String dateFormated = "";
 	private String signatureByPerson = "";
+	private SimpleDateFormat dateFMT = new SimpleDateFormat("MM-dd-yyyy");
 	private DecimalFormat fmt = new DecimalFormat("0.00");
     static final long serialVersionUID = 45678;
 	private double totalSales;
@@ -24,15 +29,16 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
 	 * @param signatureBy who the sale was signed by
 	 * @return the formatted invoice
 	 */
-	public String generateSalesInvoice(ArrayList<Inventory> bp, String bikeShop, Calendar d, String signatureBy)
+	public String generateSalesInvoice(ArrayList<Inventory> bp, String bikeShop, String signatureBy)
 	{
 		bikeShopName = bikeShop;
-		date = d;
+		date = Calendar.getInstance();
+		dateFormated = dateFMT.format(new Date());
 		signatureByPerson = signatureBy;
 		for(int x=0;x<75;x++)
 			invoice+="#";
 		
-		invoice += "\nSales Invoice for "+bikeShop+", "+d.getTime()+"\n";
+		invoice += "\nSales Invoice for "+bikeShop+", "+date.getTime()+"\n";
 		invoice+="Part Name \tPart Number \tPrice \tSales Price \tQnty \tTotal Cost\n";
 		double[] total = new double[bp.size()];
 		int x = 0;
@@ -57,6 +63,11 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
 		
 		return invoice;
 	}
+	
+	public String getDate()
+	{
+		return dateFormated;
+	}
 	public String getInvoice() 
 	{
 		return invoice;
@@ -64,10 +75,6 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
 	public String getBikeShopName() 
 	{
 		return bikeShopName;
-	}
-	public Calendar getDate() 
-	{
-		return date;
 	}
 	public void setDate(Calendar date) 
 	{
