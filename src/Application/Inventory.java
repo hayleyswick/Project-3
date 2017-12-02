@@ -42,6 +42,10 @@ public class Inventory extends BikePart implements Serializable {
         this.quantity = x;
 
     }
-
+    
+    public String toString()
+    {
+    		return bp.getName()+","+bp.getID()+","+bp.getCost()+","+bp.getSalePrice()+","+bp.getIsOnSale()+","+quantity+"\n";
+    }
 
 }
