@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -41,11 +40,14 @@ public class SalesAssociate extends User {
     }
     
     
-    public void sellToBikeShop(String bikeShopName, String signatureBy, String fileOfPartsToSell) throws FileNotFoundException
+    public String sellToBikeShop(String fileOfPartsToSell) throws FileNotFoundException
 	{
 		ArrayList<Inventory>i = new ArrayList<Inventory>();
 		File f = new File(fileOfPartsToSell);
 		Scanner input = new Scanner(f);
+		String shopAndOwner = input.nextLine();
+		String bikeShopName = shopAndOwner.substring(0,shopAndOwner.indexOf(','));
+		String signatureBy = shopAndOwner.substring(shopAndOwner.indexOf(',')+1);
 		int num = input.nextInt();
 		input.nextLine();
 		for(int x=0;x<num;x++)
@@ -64,15 +66,21 @@ public class SalesAssociate extends User {
 		SalesInvoice invoice = new SalesInvoice();
 		invoice.setSeller(this.getFirstName()+" "+this.getLastName());
 		invoice.generateSalesInvoice(i,bikeShopName,signatureBy);
-		System.out.println(invoice.getInvoice());
 		invoices.add(invoice);
+		return invoice.getInvoice();
 		
 	}
     
-    public void loadVan(String file, MainWareHouse w)
+    public String loadVan(String file, MainWareHouse w)
     {
     		moveParts(file, w);
     		s.setDB(inventory);
+    		String vanContents = "";
+    		for(Inventory i : inventory)
+    		{
+    			vanContents = i.toString();
+    		}
+    		return "Your van was successfuly loaded\n"+vanContents;
     }
     
     private void moveParts(String file, MainWareHouse warehouse)
