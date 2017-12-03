@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  * @author Hayley Swick
  */
-public class BikePart implements Cloneable, Serializable {
+public class BikePart implements Part, Cloneable, Serializable {
     private String name;
     private long ID;
     private double price;
