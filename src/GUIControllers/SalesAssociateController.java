@@ -8,35 +8,35 @@ import javafx.scene.control.*;
 
 import Users.*;
 
-public class SalesAssociateController 
+public class SalesAssociateController
 {
-	private SalesAssociate currentUser = (SalesAssociate) Main.userList.get(Main.userIndex);
-	public TextField textField;
-	public TextArea textArea;
-	public ObservableList<String> choices = FXCollections.observableArrayList("Sell to bike shop", "Load van");
-	public ComboBox<String> choice;
-	
-	public void setBox()
-	{
-		choice.setItems(choices);
-	}
-	
-	public void Go()
-	{
-		switch(choice.getValue())
-		{
-		case "Sell to bike shop":
-			try 
-			{
-				textArea.setText(currentUser.sellToBikeShop(textField.getText()));
-			} 
-			catch (FileNotFoundException e) 
-			{
-				e.printStackTrace();
-			}
-			break;
-		case "Load van":
-			currentUser.loadVan(textField.getText(), Main.mainDB);
-		}
-	}
+    private SalesAssociate currentUser = (SalesAssociate) Main.userList.get(Main.userIndex);
+    public TextField textField;
+    public TextArea textArea;
+    public ObservableList<String> choices = FXCollections.observableArrayList("Sell to bike shop", "Load van");
+    public ComboBox<String> choice;
+
+    public void setBox()
+    {
+        choice.setItems(choices);
+    }
+
+    public void Go()
+    {
+        switch(choice.getValue())
+        {
+            case "Sell to bike shop":
+                try
+                {
+                    textArea.setText(currentUser.sellToBikeShop(textField.getText()));
+                }
+                catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+                break;
+            case "Load van":
+                currentUser.loadVan(textField.getText(), Main.mainDB);
+        }
+    }
 }

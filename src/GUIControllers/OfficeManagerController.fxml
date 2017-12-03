@@ -26,11 +26,30 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Untitled Tab 2">
+          <Tab text="Order Parts">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="orderQuantityField" layoutX="14.0" layoutY="14.0" promptText="Minimum Quantity" />
+                        <TextArea fx:id="orderTextArea" layoutX="14.0" layoutY="46.0" prefHeight="314.0" prefWidth="572.0" />
+                        <TextField fx:id="orderNameField" layoutX="171.0" layoutY="14.0" promptText="Filename" />
+                        <Button layoutX="329.0" layoutY="14.0" mnemonicParsing="false" onAction="#doOrderButton" text="Generate Order" />
+                     </children></AnchorPane>
             </content>
           </Tab>
+            <Tab text="Generate Commission">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="startDate" layoutX="61.0" layoutY="14.0" />
+                        <DatePicker fx:id="endDate" layoutX="61.0" layoutY="67.0" />
+                        <Text layoutX="22.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start" />
+                        <Text layoutX="23.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End" />
+                        <Button layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#doFindDate" text="Button" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

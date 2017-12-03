@@ -69,8 +69,8 @@ public class SysAdminController {
 
 
             }
-            for (int i = 0; i < Main.mainDB.getTotalInventory().size(); i++) {
-                SalesVanWarehouse t = (SalesVanWarehouse) Main.mainDB.getTotalInventory().get(i);
+            for (int i = 0; i < Main.mainDB.getFleet().size(); i++) {
+                SalesVanWarehouse t = (SalesVanWarehouse) Main.mainDB.getFleet().get(i);
                 createOutput.appendText(t.getName() + "\n");
             }
 
@@ -100,21 +100,27 @@ public class SysAdminController {
 
                 case "System Admin":
                     currentUser.addSysAdmin(newUser);
+                    Main.writer.writeFiles();
                     break;
 
                 case "Office Manager":
                     currentUser.addOfficeManager(newUser);
+                    Main.writer.writeFiles();
+
                     break;
 
                 case "Warehouse Manager":
                     currentUser.addWHManager(newUser);
+                    Main.writer.writeFiles();
+
                     break;
 
                 case "Sales Associate":
                     currentUser.addSalesAssociate(newUser);
                     SalesAssociate sales = (SalesAssociate)currentUser.findUser(newUser);
-                    SalesVanWarehouse temp = new SalesVanWarehouse(createVanName.getText(),sales);
+                    SalesVanWarehouse temp = new SalesVanWarehouse(createVanName.getText());
                     Main.mainDB.addWarehouse(temp);
+                    Main.writer.writeFiles();
                     break;
 
             }
@@ -174,6 +180,7 @@ public class SysAdminController {
                     Main.userList.remove(index);
 
                 }
+                Main.writer.writeFiles();
                 break;
         }
 

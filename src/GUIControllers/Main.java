@@ -25,6 +25,8 @@ public class Main extends Application {
 
     public static Stage loginStage = new Stage();
 
+    public static FileHandler writer = new FileHandler();
+
     public void start(Stage loginStage) throws Exception {
 
         ObjectInputStream objectinputstream = null;
@@ -32,15 +34,15 @@ public class Main extends Application {
 
         if (!test) {
             try {
-                FileInputStream streamIn = new FileInputStream("src/GUIControllers/DBinventory.ser");
+                FileInputStream streamIn = new FileInputStream("src/Files/DBinventory.ser");
                 objectinputstream = new ObjectInputStream(streamIn);
                 ArrayList<Inventory> mainInv = (ArrayList<Inventory>) objectinputstream.readObject();
                 mainDB.setDB(mainInv);
-                streamIn = new FileInputStream("src/GUIControllers/fleet.ser");
+                streamIn = new FileInputStream("src/Files/fleet.ser");
                 objectinputstream = new ObjectInputStream(streamIn);
-                ArrayList<Warehouse> fleet = (ArrayList<Warehouse>) objectinputstream.readObject();
+                ArrayList<SalesVanWarehouse> fleet = (ArrayList<SalesVanWarehouse>) objectinputstream.readObject();
                 mainDB.setFleet(fleet);
-                streamIn = new FileInputStream("src/GUIControllers/users.ser");
+                streamIn = new FileInputStream("src/Files/users.ser");
                 objectinputstream = new ObjectInputStream(streamIn);
                 userList = (ArrayList<User>) objectinputstream.readObject();
             } catch (Exception e) {
@@ -54,14 +56,16 @@ public class Main extends Application {
 
 
         if (test) {
+            SalesVanWarehouse van1 = new SalesVanWarehouse("Tim's Van");
+
             SysAdmin defaultAdmin = new SysAdmin("admin", "minda",
-                    "test@gmail.com", "joe", "schmoe", "7037328121");
-            OfficeManager testOfficeManager = new OfficeManager("omanager", "test1",
-                    "test@gmail.com", "joe", "schmoe", "7037328121");
-            WHManager testWHManager = new WHManager("whmanager", "test2",
-                    "test@gmail.com", "joe", "schmoe", "7037328121");
-            SalesAssociate testSalesAssociate = new SalesAssociate("sassociate", "test3",
-                    "test@gmail.com", "joe", "schmoe", "7037328121");
+                    "admin@gmail.com", "John", "Roberts", "7035551375");
+            OfficeManager testOfficeManager = new OfficeManager("bross", "test1",
+                    "b.ross@gmail.com", "Betsy", "Ross", "5911522255");
+            WHManager testWHManager = new WHManager("toast", "test2",
+                    "j.norton@gmail.com", "James", "Norton", "7032210905");
+            SalesAssociate testSalesAssociate = new SalesAssociate(new User("sassociate", "test3",
+                    "test@gmail.com", "Tim", "Simpson", "7037328121"), van1);
             User testUser = new User("user", "test4",
                     "test@gmail.com", "joe", "schmoe", "7037328121");
 
@@ -71,7 +75,6 @@ public class Main extends Application {
             userList.add(testWHManager);
             userList.add(testSalesAssociate);
             userList.add(testUser);
-            SalesVanWarehouse van1 = new SalesVanWarehouse("Van1",testSalesAssociate);
 
             Inventory testInv1 = new Inventory(new BikePart("test1", 123, 10, 5, false), 5);
             Inventory testInv2 = new Inventory(new BikePart("test2", 456, 10, 5, false), 5);
@@ -82,9 +85,11 @@ public class Main extends Application {
             mainDB.addInventory(testInv2);
             mainDB.addInventory(testInv3);
             van1.addInventory(testInv4);
+            van1.addInventory(testInv1);
             mainDB.addWarehouse(van1);
 
         }
+
 
         System.out.println("Name: " + mainDB.getDB().get(0).getBikePart().getName() + ", ID: " + mainDB.getDB().get(0).getBikePart().getID() + ", Price: $"
                 + mainDB.getDB().get(0).getBikePart().getPrice() + ", Sale Price: $" + mainDB.getDB().get(0).getBikePart().getSalePrice() + ", On Sale: "
@@ -97,33 +102,7 @@ public class Main extends Application {
         loginStage.show();
 
         loginStage.setOnCloseRequest(we -> {
-
-            FileOutputStream fout = null;
-            ObjectOutputStream oos = null;
-
-            try {
-                fout = new FileOutputStream("src/GUIControllers/DBinventory.ser");
-                oos = new ObjectOutputStream(fout);
-                oos.writeObject(mainDB.getDB());
-                fout = new FileOutputStream("src/GUIControllers/fleet.ser");
-                oos = new ObjectOutputStream(fout);
-                oos.writeObject(mainDB.getTotalInventory());
-                fout = new FileOutputStream("src/GUIControllers/users.ser");
-                oos = new ObjectOutputStream(fout);
-                oos.writeObject(userList);
-
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            } finally {
-                if (oos != null) {
-                    try {
-                        oos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            writer.writeFiles();
         });
 
 

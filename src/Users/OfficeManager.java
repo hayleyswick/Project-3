@@ -2,6 +2,7 @@ package Users;
 
 import Application.Inventory;
 import Application.Warehouse;
+import GUIControllers.Main;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,10 +36,26 @@ public class OfficeManager extends User {
 
     public Inventory examinePartID(Long ID, ArrayList<Inventory> inv) {
         for (Inventory i : inv) {
-            if (i.getBikePart().getID()==ID) {
+            if (i.getBikePart().getID() == ID) {
                 return i;
             }
         }
         return null;
+    }
+
+    public ArrayList<Inventory> generatePartsOrder(long quantity) {
+
+        ArrayList<Inventory> parts = new ArrayList<>();
+        long difference;
+
+        for (Inventory i : Main.mainDB.getDB()) {
+            if (i.getQuantity() < quantity) {
+                difference = (quantity-i.getQuantity());
+                parts.add(new Inventory(i.getBikePart(),difference));
+            }
+
+        }
+        return parts;
+
     }
 }

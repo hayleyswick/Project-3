@@ -26,9 +26,14 @@
                             </children></AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="Update Inventory">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="170.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateInventory" text="Update" />
+                        <TextArea fx:id="updateInventoryArea" layoutX="14.0" layoutY="47.0" prefHeight="316.0" prefWidth="568.0" />
+                        <TextField fx:id="updateInventoryName" layoutX="14.0" layoutY="14.0" promptText="Inventory Filename" />
+                     </children></AnchorPane>
                     </content>
                 </Tab>
             </tabs>
