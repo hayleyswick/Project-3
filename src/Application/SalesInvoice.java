@@ -16,7 +16,7 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
     private Calendar date;
     private String dateFormated = "";
     private String signatureByPerson = "";
-    private SimpleDateFormat dateFMT = new SimpleDateFormat("MM-dd-yyyy");
+    private SimpleDateFormat dateFMT = new SimpleDateFormat("yyyy-MM-dd");
     private DecimalFormat fmt = new DecimalFormat("0.00");
     static final long serialVersionUID = 45678;
     private double totalSales;
