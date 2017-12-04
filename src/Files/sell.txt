@@ -1,0 +1,5 @@
+Sam's Bike Shop,Sam
+3
+26inTube,1234567891,7.00,5.58,true,13
+10spFrontDerailuer,1234567897,41.00,31.50,true,1
+zarminComputer,1234567908,543.21,480.00,false,14
