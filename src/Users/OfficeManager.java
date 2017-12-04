@@ -4,58 +4,113 @@ import Application.Inventory;
 import Application.Warehouse;
 import GUIControllers.Main;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
+import Application.*;
+
 public class OfficeManager extends User {
-    static final long serialVersionUID = 9;
+	static final long serialVersionUID = 9;
+	private DecimalFormat fmt = new DecimalFormat("0.00");
 
-    public OfficeManager(String username, String password, String email,
-                         String firstName, String lastName, String phoneNumber) {
-        super(username, password, email, firstName, lastName, phoneNumber);
+	public OfficeManager(String username, String password, String email,
+			String firstName, String lastName, String phoneNumber) {
+		super(username, password, email, firstName, lastName, phoneNumber);
 
-    }
+	}
 
-    public OfficeManager(User user) {
-        this.setUsername(user.getUsername());
-        this.setPassword(user.getPassword());
-        this.setEmail(user.getEmail());
-        this.setFirstName(user.getFirstName());
-        this.setLastName(user.getLastName());
-        this.setPhoneNumber(user.getPhoneNumber());
-    }
+	public OfficeManager(User user) {
+		this.setUsername(user.getUsername());
+		this.setPassword(user.getPassword());
+		this.setEmail(user.getEmail());
+		this.setFirstName(user.getFirstName());
+		this.setLastName(user.getLastName());
+		this.setPhoneNumber(user.getPhoneNumber());
+	}
 
-    public Inventory examinePartName(String name, ArrayList<Inventory> inv) {
-        for (Inventory i : inv) {
-            if (i.getBikePart().getName().equals(name)) {
-                return i;
-            }
-        }
-        return null;
-    }
+	public Inventory examinePartName(String name, ArrayList<Inventory> inv) {
+		for (Inventory i : inv) {
+			if (i.getBikePart().getName().equals(name)) {
+				return i;
+			}
+		}
+		return null;
+	}
 
-    public Inventory examinePartID(Long ID, ArrayList<Inventory> inv) {
-        for (Inventory i : inv) {
-            if (i.getBikePart().getID() == ID) {
-                return i;
-            }
-        }
-        return null;
-    }
+	public Inventory examinePartID(Long ID, ArrayList<Inventory> inv) {
+		for (Inventory i : inv) {
+			if (i.getBikePart().getID() == ID) {
+				return i;
+			}
+		}
+		return null;
+	}
 
-    public ArrayList<Inventory> generatePartsOrder(long quantity) {
+	public String paySalesAssociate(String username, Date startDate, Date endDate)
+	{
+		String check = "";
+		ArrayList<SalesInvoice> invoices = new ArrayList<SalesInvoice>();
+		try 
+		{
+			ObjectInputStream objInputStream = new ObjectInputStream(new FileInputStream("src/Files/invoices.ser"));
+			try
+			{
+				invoices.addAll((ArrayList<SalesInvoice>) objInputStream.readObject());
+				ArrayList<SalesInvoice> userInvoices = new ArrayList<SalesInvoice>();
+				for(SalesInvoice i : invoices)
+				{
+					if(i.getSeller().equals(username))
+						userInvoices.add(i);
+				}
+				ArrayList<SalesInvoice> valid = new ArrayList<SalesInvoice>();
+				for(SalesInvoice i : invoices)
+				{
+					if(i.getDate().compareTo(startDate)>=0&&i.getDate().compareTo(endDate)<=0)
+					{
+						valid.add(i);
+					}
+				}
+				double rawCheck = 0;
+				for(SalesInvoice i : valid)
+				{
+					rawCheck += i.getTotalSales();
+				}
+				check = username+" was paid $"+fmt.format(rawCheck);
 
-        ArrayList<Inventory> parts = new ArrayList<>();
-        long difference;
+			} 
+			catch (ClassNotFoundException e) 
+			{
 
-        for (Inventory i : Main.mainDB.getDB()) {
-            if (i.getQuantity() < quantity) {
-                difference = (quantity-i.getQuantity());
-                parts.add(new Inventory(i.getBikePart(),difference));
-            }
+				e.printStackTrace();
+			}
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 
-        }
-        return parts;
+		return check;
+	}
 
-    }
+	public ArrayList<Inventory> generatePartsOrder(long quantity) {
+
+		ArrayList<Inventory> parts = new ArrayList<>();
+		long difference;
+
+		for (Inventory i : Main.mainDB.getDB()) {
+			if (i.getQuantity() < quantity) {
+				difference = (quantity-i.getQuantity());
+				parts.add(new Inventory(i.getBikePart(),difference));
+			}
+
+		}
+		return parts;
+
+	}
 }
