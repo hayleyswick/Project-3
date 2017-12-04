@@ -80,7 +80,7 @@ public class SalesAssociate extends User {
                     a.setQuantity(a.getQuantity() - inv.getQuantity());
 
         SalesInvoice invoice = new SalesInvoice();
-        invoice.setSeller(this.getFirstName() + " " + this.getLastName());
+        invoice.setSeller(this.getUsername());
         invoice.generateSalesInvoice(i, bikeShopName, signatureBy);
         invoices.add(invoice);
         return invoice.getInvoice();
