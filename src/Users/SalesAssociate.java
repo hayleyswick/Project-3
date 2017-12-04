@@ -131,14 +131,30 @@ public class SalesAssociate extends User {
     }
 
     public void writeInvoices() {
-        try {
-            Collections.sort(invoices);
-            ObjectOutputStream objOutputStream = new ObjectOutputStream(new FileOutputStream("invoices.bin"));
-            objOutputStream.writeObject(invoices);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+		try 
+		{    
+			try 
+			{
+				ArrayList<SalesInvoice> totalInvoices = new ArrayList<SalesInvoice>();
+				ObjectInputStream objectinputstream = new ObjectInputStream(new FileInputStream("src/Files/invoices.bin"));
+				totalInvoices.addAll((ArrayList<SalesInvoice>) objectinputstream.readObject());
+
+				totalInvoices.addAll(invoices);
+				Collections.sort(totalInvoices);
+				ObjectOutputStream objOutputStream = new ObjectOutputStream(new FileOutputStream("src/Files/invoices.bin"));
+				objOutputStream.writeObject(totalInvoices);
+			} 
+			catch (FileNotFoundException e1) 
+			{
+				e1.printStackTrace();
+			} 
+			catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} 
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
     }
 }
