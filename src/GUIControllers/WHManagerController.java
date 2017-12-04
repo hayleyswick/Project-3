@@ -117,7 +117,7 @@ public class WHManagerController {
                         Main.mainDB.addInventory(i);
                     } else {
                         quantity = (i.getQuantity() + idxAndQuantity[1]);
-                        Main.mainDB.updateInventory(i, quantity, true);
+                        Main.mainDB.updateInventory(i, quantity, true,Main.mainDB.getDB());
 
                     }
                 }

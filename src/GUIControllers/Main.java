@@ -64,22 +64,16 @@ public class Main extends Application {
                     "b.ross@gmail.com", "Betsy", "Ross", "5911522255");
             WHManager testWHManager = new WHManager("toast", "test2",
                     "j.norton@gmail.com", "James", "Norton", "7032210905");
-            SalesAssociate testSalesAssociate = new SalesAssociate(new User("sassociate", "test3",
+            SalesAssociate testSalesAssociate = new SalesAssociate(new User("s", "s",
                     "test@gmail.com", "Tim", "Simpson", "7037328121"), van1);
             User testUser = new User("user", "test4",
                     "test@gmail.com", "joe", "schmoe", "7037328121");
-
-
-            userList.add(defaultAdmin);
-            userList.add(testOfficeManager);
-            userList.add(testWHManager);
-            userList.add(testSalesAssociate);
-            userList.add(testUser);
 
             Inventory testInv1 = new Inventory(new BikePart("test1", 123, 10, 5, false), 5);
             Inventory testInv2 = new Inventory(new BikePart("test2", 456, 10, 5, false), 5);
             Inventory testInv3 = new Inventory(new BikePart("test3", 789, 10, 5, true), 5);
             Inventory testInv4 = new Inventory(new BikePart("test4", 000, 10, 5, false), 5);
+            writer.writeToFile("testSell",testInv4);
 
             mainDB.addInventory(testInv1);
             mainDB.addInventory(testInv2);
@@ -87,6 +81,12 @@ public class Main extends Application {
             van1.addInventory(testInv4);
             van1.addInventory(testInv1);
             mainDB.addWarehouse(van1);
+
+            userList.add(defaultAdmin);
+            userList.add(testOfficeManager);
+            userList.add(testWHManager);
+            userList.add(testSalesAssociate);
+            userList.add(testUser);
 
         }
 

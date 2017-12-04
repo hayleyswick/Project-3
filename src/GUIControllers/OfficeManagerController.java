@@ -142,7 +142,13 @@ public class OfficeManagerController {
     @FXML
     void doFindDate() {
 
-        System.out.println(startDate.getValue() + " " + endDate.getValue());
+        String start;
+        String end;
+
+        Date test = new Date(2007,11,25);
+
+        System.out.println(startDate.getValue().toString() + " " + endDate.getValue().toString().toString());
+
 
 
 

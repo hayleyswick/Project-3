@@ -32,12 +32,11 @@ public abstract class Warehouse implements Serializable {
         return db.iterator();
     }
 
-    public void updateInventory(Inventory inventory, long y, boolean change) {
+    public void updateInventory(Inventory inventory, long y, boolean change, ArrayList<Inventory> inv) {
 
-        for (int i = 0;i<Main.mainDB.getDB().size();i++) {
+        for (int i = 0;i<inv.size();i++) {
 
-            if (inventory.getBikePart().getName().equals(Main.mainDB.getDB().get(i).getBikePart().getName())) {
-                System.out.println(inventory.getName()+Main.mainDB.getDB().get(i).getName());
+            if (inventory.getBikePart().getName().equals(inv.get(i).getBikePart().getName())) {
                 double p = inventory.getBikePart().getPrice();
                 double s = inventory.getBikePart().getSalePrice();
                 boolean iOS = inventory.getBikePart().getIsOnSale();
@@ -46,10 +45,25 @@ public abstract class Warehouse implements Serializable {
                     inventory.updateBikePart(p, s, iOS, y);
                 else
                     inventory.updateBikePart(p, s, iOS, x);
-                Main.mainDB.getDB().set(i,inventory);
+                inv.set(i,inventory);
 
             }
         }
+    }
+
+    public long[] checkPartList(Inventory i, ArrayList<Inventory> list) {
+        long[] idxAndQuantity = new long[2];
+        BikePart inventoryBP = i.getBikePart();
+        String bpname = inventoryBP.getName();
+        for (int idx = 0; idx < list.size(); idx++) {
+            BikePart listBP = list.get(idx).getBikePart();
+            if (bpname.equals(listBP.getName())) {
+                idxAndQuantity[0] = idx;
+                idxAndQuantity[1] = list.get(idx).getQuantity();
+                return idxAndQuantity;
+            }
+        }
+        return null;
     }
 
 

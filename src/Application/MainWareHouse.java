@@ -22,25 +22,12 @@ public class MainWareHouse extends Warehouse {
     }
 
     public void update(Inventory inventory) {
-        updateInventory(inventory, inventory.getQuantity(), false);
+        updateInventory(inventory, inventory.getQuantity(), false,Main.mainDB.getDB());
         for (Warehouse w : Main.mainDB.getFleet())
-            w.updateInventory(inventory, inventory.getQuantity(), false);
+            w.updateInventory(inventory, inventory.getQuantity(), false,Main.mainDB.getDB());
     }
 
-    public long[] checkPartList(Inventory i, ArrayList<Inventory> list) {
-        long[] idxAndQuantity = new long[2];
-        BikePart inventoryBP = i.getBikePart();
-        String bpname = inventoryBP.getName();
-        for (int idx = 0; idx < list.size(); idx++) {
-            BikePart listBP = list.get(idx).getBikePart();
-            if (bpname.equals(listBP.getName())) {
-                idxAndQuantity[0] = idx;
-                idxAndQuantity[1] = list.get(idx).getQuantity();
-                return idxAndQuantity;
-            }
-        }
-        return null;
-    }
+
 
     public Inventory modifyInventory(Inventory i, long y) {
         return new Inventory(i.getBikePart(), i.getQuantity() + y);
