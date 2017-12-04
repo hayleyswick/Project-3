@@ -101,6 +101,7 @@ public class SalesAssociate extends User {
 
 	private void moveParts(String file, MainWareHouse warehouse) {
 		ArrayList<Warehouse> w = new ArrayList<Warehouse>();
+		w.addAll(warehouse.getFleet());
 		Warehouse main = w.get(0);
 		ArrayList<Inventory> inventoryW = new ArrayList<Inventory>();
 		inventoryW.addAll(main.getDB());
