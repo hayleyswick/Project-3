@@ -45,7 +45,9 @@
                         <DatePicker fx:id="endDate" layoutX="61.0" layoutY="67.0" />
                         <Text layoutX="22.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start" />
                         <Text layoutX="23.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End" />
-                        <Button layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#doFindDate" text="Button" />
+                        <Button layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#doFindDate" text="Generate" />
+                        <TextField fx:id="usernameTextField" layoutX="282.0" layoutY="67.0" />
+                        <TextArea fx:id="commissionTextArea" layoutX="22.0" layoutY="107.0" prefHeight="252.0" prefWidth="561.0" />
                      </children>
                   </AnchorPane>
               </content>

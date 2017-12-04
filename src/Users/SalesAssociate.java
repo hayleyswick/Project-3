@@ -81,8 +81,10 @@ public class SalesAssociate extends User {
             String line = input.nextLine();
             String[] elements = line.split(",");
             s.sellPart(Long.parseLong(elements[1]), Long.parseLong(elements[5]));
-
+            i.add(new Inventory(new BikePart(elements[0], Integer.parseInt(elements[1]),
+                    Double.parseDouble(elements[2]), Double.parseDouble(elements[3]), Boolean.parseBoolean(elements[4])), Long.parseLong(elements[5])));
         }
+
 
         SalesInvoice invoice = new SalesInvoice();
         invoice.setSeller(this.getUsername());

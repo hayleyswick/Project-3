@@ -81,6 +81,12 @@ public class User implements Serializable {
         } else
             return false;
     }
+    /*
+    public boolean checkUser(String username){
+        for()
+
+    }
+    */
 
 
 

@@ -24,7 +24,6 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
      * created and who it was signed by
      * @param bp the BikePart ArrayList
      * @param bikeShop name of the bike shop the sales invoice is for
-     * @param d the calendar object for the current date and time
      * @param signatureBy who the sale was signed by
      * @return the formatted invoice
      */
@@ -36,7 +35,7 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
         for(int x=0;x<75;x++)
             invoice+="#";
 
-        invoice += "\nSales Invoice for "+bikeShop+", "+date.getTime()+"\n";
+        invoice += "\nSales Invoice for "+bikeShop+", "+d.getTime()+"\n";
         invoice+="Part Name \tPart Number \tPrice \tSales Price \tQnty \tTotal Cost\n";
         double[] total = new double[bp.size()];
         int x = 0;
@@ -55,11 +54,11 @@ public class SalesInvoice implements Serializable, Comparable<SalesInvoice>
             overallTotal+=t;
         invoice+="Total:\t"+fmt.format(overallTotal)+"\n";
         totalSales = overallTotal;
-        invoice+="\nSignature Recived By: "+signatureBy+"\n";
+        invoice+="\nSignature Received By: "+signatureBy+"\n";
         for(int n=0;n<75;n++)
             invoice+="#";
 
-        return invoice;
+        return invoice+"\n";
     }
 
     public Date getDate()

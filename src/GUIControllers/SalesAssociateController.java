@@ -57,8 +57,6 @@ public class SalesAssociateController {
                 break;
             case "Load van":
 
-                //System.out.println(Main.mainDB.getDB().get(0).getQuantity());
-                //textArea.setText(currentUser.loadVan(textField.getText(), Main.mainDB));
                 currentUser.moveParts(textField.getText());
                 Main.writer.writeFiles();
 

@@ -38,17 +38,7 @@ public class SalesVanWarehouse extends Warehouse implements Serializable {
 
 
     public void sellPart(long id, long x) {
-        /*
-        Iterator<Inventory> it = dbIterator();
-        while (it.hasNext()) {
-            Inventory inventory = it.next();
-            if (inventory.getID() == id) {
-                long quantity = inventory.getQuantity();
-                updateInventory(inventory, quantity-x, true,inv);
-            }
 
-        }
-        */
         for (Inventory i : this.getDB()) {
             if (i.getBikePart().getID() == id) {
                 long quantity = i.getQuantity();

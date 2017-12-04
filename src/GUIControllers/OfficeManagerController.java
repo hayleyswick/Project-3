@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -138,16 +139,42 @@ public class OfficeManagerController {
     @FXML
     public DatePicker endDate;
 
+    @FXML
+    public TextArea commissionTextArea;
+
+    @FXML
+    public TextField usernameTextField;
+
 
     @FXML
     void doFindDate() {
 
-        String start;
-        String end;
+        int year = startDate.getValue().getYear();
+        int month = startDate.getValue().getMonthValue()-1;
+        int day = startDate.getValue().getDayOfMonth();
 
-        Date test = new Date(2007,11,25);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
 
-        System.out.println(startDate.getValue().toString() + " " + endDate.getValue().toString().toString());
+        Date start = calendar.getTime();
+
+        year = endDate.getValue().getYear();
+        month = endDate.getValue().getMonthValue()-1;
+        day = endDate.getValue().getDayOfMonth();
+
+        calendar.set(year, month, day);
+
+        Date end = calendar.getTime();
+
+        if(!start.after(end)){
+
+            commissionTextArea.appendText(currentUser.paySalesAssociate(usernameTextField.getText(),start,end));
+
+
+
+        }
+
+
 
 
 
