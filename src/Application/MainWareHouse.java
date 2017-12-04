@@ -23,16 +23,17 @@ public class MainWareHouse extends Warehouse {
 
     public void update(Inventory inventory) {
         updateInventory(inventory, inventory.getQuantity(), false);
-        for (Warehouse w : fleet)
+        for (Warehouse w : Main.mainDB.getFleet())
             w.updateInventory(inventory, inventory.getQuantity(), false);
     }
 
     public long[] checkPartList(Inventory i, ArrayList<Inventory> list) {
         long[] idxAndQuantity = new long[2];
         BikePart inventoryBP = i.getBikePart();
+        String bpname = inventoryBP.getName();
         for (int idx = 0; idx < list.size(); idx++) {
             BikePart listBP = list.get(idx).getBikePart();
-            if (inventoryBP.equals(listBP)) {
+            if (bpname.equals(listBP.getName())) {
                 idxAndQuantity[0] = idx;
                 idxAndQuantity[1] = list.get(idx).getQuantity();
                 return idxAndQuantity;

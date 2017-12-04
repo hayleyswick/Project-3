@@ -1,5 +1,7 @@
 package Application;
 
+import GUIControllers.Main;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,25 +33,24 @@ public abstract class Warehouse implements Serializable {
     }
 
     public void updateInventory(Inventory inventory, long y, boolean change) {
-        int index = 0;
-        Iterator<Inventory> it = this.getDB().iterator();
-        while (it.hasNext()) {
-            if (it.next().equals(inventory)) {
-                double p = inventory.getPrice();
-                double s = inventory.getSalePrice();
-                boolean iOS = inventory.getIsOnSale();
+
+        for (int i = 0;i<Main.mainDB.getDB().size();i++) {
+
+            if (inventory.getBikePart().getName().equals(Main.mainDB.getDB().get(i).getBikePart().getName())) {
+                System.out.println(inventory.getName()+Main.mainDB.getDB().get(i).getName());
+                double p = inventory.getBikePart().getPrice();
+                double s = inventory.getBikePart().getSalePrice();
+                boolean iOS = inventory.getBikePart().getIsOnSale();
                 long x = inventory.getQuantity();
                 if (change == true)
                     inventory.updateBikePart(p, s, iOS, y);
                 else
                     inventory.updateBikePart(p, s, iOS, x);
-                this.getDB().set(index, inventory);
+                Main.mainDB.getDB().set(i,inventory);
+
             }
-            index++;
         }
     }
-
-
 
 
 }

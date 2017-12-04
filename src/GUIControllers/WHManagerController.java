@@ -100,6 +100,8 @@ public class WHManagerController {
     void updateInventory() {
 
         ArrayList<Inventory> incomingInventory;
+        long[] idxAndQuantity = new long[2];
+        long quantity;
 
         if (!updateInventoryName.getText().trim().equals("")) {
 
@@ -107,15 +109,27 @@ public class WHManagerController {
 
             if (tempFile.isFile()) {
                 incomingInventory = (ArrayList<Inventory>) Main.writer.readFromFile(updateInventoryName.getText());
-                for(Inventory i: incomingInventory){
-                    updateInventoryArea.appendText("Part Name: " + i.getBikePart().getName() + ", ID: " + i.getBikePart().getID() + ", Price: $"
-                            + i.getBikePart().getPrice() + ", Sale Price: $" + i.getBikePart().getSalePrice() + ", On Sale: "
-                            + i.getBikePart().getIsOnSale() + ", Quantity: " + i.getQuantity() + "\n");
+                for (Inventory i : incomingInventory) {
 
+                    idxAndQuantity = Main.mainDB.checkPartList(i, Main.mainDB.getDB());
+
+                    if (idxAndQuantity == null) {
+                        Main.mainDB.addInventory(i);
+                    } else {
+                        quantity = (i.getQuantity() + idxAndQuantity[1]);
+                        Main.mainDB.updateInventory(i, quantity, true);
+
+                    }
+                }
+
+                for (Inventory j : incomingInventory) {
+                    updateInventoryArea.appendText("Part Name: " + j.getBikePart().getName() + ", ID: " + j.getBikePart().getID() + ", Price: $"
+                            + j.getBikePart().getPrice() + ", Sale Price: $" + j.getBikePart().getSalePrice() + ", On Sale: "
+                            + j.getBikePart().getIsOnSale() + ", Quantity: " + j.getQuantity() + "\n");
                 }
 
             } else {
-                updateInventoryArea.appendText("File "+updateInventoryName.getText()+" does not exist.\n");
+                updateInventoryArea.appendText("File " + updateInventoryName.getText() + " does not exist.\n");
             }
 
         }

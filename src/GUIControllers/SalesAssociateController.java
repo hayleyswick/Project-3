@@ -24,12 +24,12 @@ public class SalesAssociateController
 
     public void setButton()
     {
-    		if(choice.getValue().equals("Sell to bike shop"))
-    			button.setText("Sell");
-    		else
-    			button.setText("Load Van");
+        if(choice.getValue().equals("Sell to bike shop"))
+            button.setText("Sell");
+        else
+            button.setText("Load Van");
     }
-    
+
     public void Go()
     {
         switch(choice.getValue())
@@ -45,7 +45,9 @@ public class SalesAssociateController
                 }
                 break;
             case "Load van":
+                currentUser.getS().getDB().get(0);
                 currentUser.loadVan(textField.getText(), Main.mainDB);
+                currentUser.getS().getDB().get(0);
         }
     }
 }

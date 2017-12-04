@@ -10,7 +10,6 @@ public class Inventory extends BikePart implements Serializable {
 
 
     public Inventory() {
-
     }
 
     public Inventory(BikePart part, long x) {
