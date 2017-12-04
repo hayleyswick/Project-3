@@ -15,12 +15,21 @@ public class SalesAssociateController
     public TextArea textArea;
     public ObservableList<String> choices = FXCollections.observableArrayList("Sell to bike shop", "Load van");
     public ComboBox<String> choice;
+    public Button button;
 
     public void setBox()
     {
         choice.setItems(choices);
     }
 
+    public void setButton()
+    {
+    		if(choice.getValue().equals("Sell to bike shop"))
+    			button.setText("Sell");
+    		else
+    			button.setText("Load Van");
+    }
+    
     public void Go()
     {
         switch(choice.getValue())
