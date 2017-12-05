@@ -1,19 +1,21 @@
 package Users;
 
 import Application.Inventory;
-import Application.Warehouse;
+import Application.SalesInvoice;
 import GUIControllers.Main;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
+import java.util.Date;
 
-import Application.*;
+/**
+ * A type of user that can search for a part by name or ID, generate commission for a Sales Associate, and create a resupply order.
+ *
+ * @author Liam Caudill
+ */
 
 public class OfficeManager extends User {
     static final long serialVersionUID = 9;
@@ -33,6 +35,12 @@ public class OfficeManager extends User {
         this.setPhoneNumber(user.getPhoneNumber());
     }
 
+    /**
+     * @param name Name of part that is being looking for.
+     * @param inv  Inventory in which to look for the part.
+     * @return The Inventory being searched for if it exists in the given ArrayList<Inventory>, or null if it doesn't
+     */
+
     public Inventory examinePartName(String name, ArrayList<Inventory> inv) {
         for (Inventory i : inv) {
             if (i.getBikePart().getName().equals(name)) {
@@ -41,6 +49,12 @@ public class OfficeManager extends User {
         }
         return null;
     }
+
+    /**
+     * @param ID  ID of part that is being looking for.
+     * @param inv Inventory in which to look for the part.
+     * @return The Inventory being searched for if it exists in the given ArrayList<Inventory>, or null if it doesn't
+     */
 
     public Inventory examinePartID(Long ID, ArrayList<Inventory> inv) {
         for (Inventory i : inv) {
@@ -51,6 +65,14 @@ public class OfficeManager extends User {
         return null;
     }
 
+    /**
+     *
+     * @param username Username of the Sales Associate to generate commission for.
+     * @param startDate Starting date for the range of invoices to check.
+     * @param endDate Ending date for the range of invoices to check.
+     * @return A String sentence denoting how much the Associate has earned.
+     * @author Will Jones
+     */
     public String paySalesAssociate(String username, Date startDate, Date endDate) {
         String check = "";
         ArrayList<SalesInvoice> invoices = new ArrayList<SalesInvoice>();
@@ -75,7 +97,7 @@ public class OfficeManager extends User {
                 }
                 DecimalFormat fmt = new DecimalFormat("0.00");
                 check = username +
-                        " was paid $" + fmt.format(rawCheck*.15);
+                        " has earned $" + fmt.format(rawCheck * .15);
 
             } catch (ClassNotFoundException e) {
 
@@ -88,6 +110,12 @@ public class OfficeManager extends User {
         return check;
     }
 
+    /**
+     *
+     * @param quantity The minimum quantity of part required.
+     * @return An ArrayList containing all the parts from the Main Warehouse that have a quantity lower than
+     * 10, with the given quantity being the difference between the current and the entered.
+     */
     public ArrayList<Inventory> generatePartsOrder(long quantity) {
 
         ArrayList<Inventory> parts = new ArrayList<>();

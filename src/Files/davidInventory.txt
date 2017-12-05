@@ -1,0 +1,16 @@
+700-23SwhalbeTire,1234567894,51.00,40.50,true,10
+timePedals,1234567903,102.31,89.00,false,10
+frogPedalsTitanium,1234567904,142.31,130.00,false,10
+11spRearDerailuer,1234567898,97.00,80.50,true,10
+carbonWheelSet,1234567905,542.31,480.00,false,10
+mountainFork29,1234567912,223.00,195.00,false,10
+26inTube,1234567891,7.00,5.58,true,10
+10spFrontDerailuer,1234567897,41.00,31.50,true,10
+seatPost,1234567892,17.00,1.23,true,10
+700-25SwhalbeTire,1234567895,51.00,40.50,true,10
+zarminComputer,1234567908,543.21,480.00,false,1
+womensBibsMedium,1234567909,110.00,99.00,false,1
+womensJacketMedium,1234567911,120.00,95.00,false,1
+WTB_saddle,1234567890,33.00,25.58,false,1
+mensBibsMedium,1234567900,110.00,99.00,false,1
+womensHelmetSmall,1234567901,130.00,79.00,false,1

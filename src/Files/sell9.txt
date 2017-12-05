@@ -1,0 +1,3 @@
+Charlie's Cool Convenience Story,Charlie
+1
+26inTube,1234567891,7.00,5.58,true,2

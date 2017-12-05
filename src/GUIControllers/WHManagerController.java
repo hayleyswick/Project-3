@@ -2,20 +2,24 @@ package GUIControllers;
 
 import Application.Inventory;
 import Application.SalesVanWarehouse;
-import Application.Warehouse;
-import Users.User;
 import Users.WHManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
+/**
+ * Handles the gui for the Warehouse Manager
+ */
 public class WHManagerController {
 
     WHManager currentUser = (WHManager) Main.userList.get(Main.userIndex);
@@ -29,6 +33,10 @@ public class WHManagerController {
     @FXML
     private TextArea examineTextArea;
 
+    /**
+     * Searches for Inventory by name; if there is a match, displays all the attributes of the part
+     * and where it can be found in the system.
+     */
     @FXML
     void doExamineName() {
 
@@ -41,17 +49,17 @@ public class WHManagerController {
 
             temp = currentUser.examinePartName(examineTextField.getText(), Main.mainDB.getFleet().get(0).getDB());
 
+
             for (SalesVanWarehouse w : inventory) {
 
                 temp = currentUser.examinePartName(examineTextField.getText(), w.getDB());
 
                 if (temp != null) {
-                    examineTextArea.appendText("Location: " + w.getName() + "\nPart Name: " + temp.getBikePart().getName() + ", ID: " + temp.getBikePart().getID() + ", Price: $"
-                            + temp.getBikePart().getPrice() + ", Sale Price: $" + temp.getBikePart().getSalePrice() + ", On Sale: "
-                            + temp.getBikePart().getIsOnSale() + ", Quantity: " + temp.getQuantity() + "\n");
+                    examineTextArea.appendText("\nLocation: " + w.getName() + "\n" + temp.appendTextFormat());
                     temp = null;
                     exists = true;
                 }
+
             }
 
             if (!exists) {
@@ -60,32 +68,42 @@ public class WHManagerController {
         } else examineTextArea.appendText("Please enter a BikePart name or ID.\n");
     }
 
+    /**
+     * Searches for Inventory by ID; if there is a match, displays all the attributes of the part
+     * and where it can be found in the system.
+     */
     @FXML
-    void doExamineID() {
+    void doExamineID() throws NumberFormatException {
 
-        Inventory temp;
+        Inventory temp = null;
         ArrayList<SalesVanWarehouse> inventory = Main.mainDB.getAllInventories();
         boolean exists = false;
 
+
         if (!examineTextField.getText().trim().equals("")) {
 
-            temp = currentUser.examinePartName(examineTextField.getText(), Main.mainDB.getFleet().get(0).getDB());
+
+            try {
+                temp = currentUser.examinePartID(Long.parseLong(examineTextField.getText()), Main.mainDB.getFleet().get(0).getDB());
+
+            } catch (Exception e) {
+            }
 
             for (SalesVanWarehouse w : inventory) {
 
-                temp = currentUser.examinePartID(Long.parseLong(examineTextField.getText()), w.getDB());
+                try {
+                    temp = currentUser.examinePartID(Long.parseLong(examineTextField.getText()), w.getDB());
+                } catch (Exception e) {
+                }
 
                 if (temp != null) {
-                    examineTextArea.appendText("Location: " + w.getName() + "\nPart Name: " + temp.getBikePart().getName() + ", ID: " + temp.getBikePart().getID() + ", Price: $"
-                            + temp.getBikePart().getPrice() + ", Sale Price: $" + temp.getBikePart().getSalePrice() + ", On Sale: "
-                            + temp.getBikePart().getIsOnSale() + ", Quantity: " + temp.getQuantity() + "\n");
+                    examineTextArea.appendText("\nLocation: " + w.getName() + "\n" + temp.appendTextFormat());
                     temp = null;
                     exists = true;
                 }
             }
-
             if (!exists) {
-                examineTextArea.appendText("No part exists with the name " + examineTextField.getText() + ".\n");
+                examineTextArea.appendText("No part exists with the ID " + examineTextField.getText() + ".\n");
             }
         } else examineTextArea.appendText("Please enter a BikePart name or ID.\n");
     }
@@ -96,6 +114,9 @@ public class WHManagerController {
     @FXML
     public TextField updateInventoryName;
 
+    /**
+     * Reads in a serializable file created by the Office Manager and updates the stock.
+     */
     @FXML
     void updateInventory() {
 
@@ -117,23 +138,76 @@ public class WHManagerController {
                         Main.mainDB.addInventory(i);
                     } else {
                         quantity = (i.getQuantity() + idxAndQuantity[1]);
-                        Main.mainDB.updateInventory(i, quantity, true,Main.mainDB.getDB());
-
+                        Main.mainDB.updateInventory(i, quantity, true, Main.mainDB.getDB());
                     }
                 }
+                Main.writer.writeFiles();
 
-                for (Inventory j : incomingInventory) {
-                    updateInventoryArea.appendText("Part Name: " + j.getBikePart().getName() + ", ID: " + j.getBikePart().getID() + ", Price: $"
-                            + j.getBikePart().getPrice() + ", Sale Price: $" + j.getBikePart().getSalePrice() + ", On Sale: "
-                            + j.getBikePart().getIsOnSale() + ", Quantity: " + j.getQuantity() + "\n");
-                }
+                updateInventoryArea.appendText("Inventory from file " + updateInventoryName.getText() + " has been loaded.");
 
             } else {
                 updateInventoryArea.appendText("File " + updateInventoryName.getText() + " does not exist.\n");
             }
+        }
+    }
 
+    /**
+     * Sorts BikeParts in every location by name, but keeps the inventories separate.
+     */
+    @FXML
+    void doSortName() {
+        ArrayList<SalesVanWarehouse> inventory = Main.mainDB.getAllInventories();
+
+        for (SalesVanWarehouse s : inventory) {
+            examineTextArea.appendText("\nLocation: " + s.getName() + "\n");
+            Collections.sort(s.getDB(), (p1, p2) -> p1.getBikePart().getName().compareToIgnoreCase(p2.getBikePart().getName()));
+            for (Inventory i : s.getDB()) {
+                examineTextArea.appendText(i.appendTextFormat());
+
+            }
         }
 
+    }
+
+    /**
+     * Sorts BikeParts in every location by ID, but keeps the inventories separate.
+     */
+    @FXML
+    void doSortID() {
+        ArrayList<SalesVanWarehouse> inventory = Main.mainDB.getAllInventories();
+
+        for (SalesVanWarehouse s : inventory) {
+            examineTextArea.appendText("\nLocation: " + s.getName() + "\n");
+            Collections.sort(s.getDB(), (p1, p2) -> Long.compare(p1.getBikePart().getID(), p2.getBikePart().getID()));
+
+            for (Inventory i : s.getDB()) {
+                examineTextArea.appendText(i.appendTextFormat());
+
+            }
+        }
+        examineTextArea.appendText("\n");
+    }
+
+    /**
+     * Returns the user to the login screen.
+     *
+     * @throws IOException Thrown if LoginController.fxml does not exist or is read in incorrectly.
+     */
+
+    @FXML
+    void doLogoutButton() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("LoginController.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        Stage appStage = new Stage();
+        appStage.setScene(scene);
+        appStage.show();
+        Main.writer.writeFiles();
+        examineTextArea.getScene().getWindow().hide();
 
     }
 }

@@ -2,25 +2,29 @@ package GUIControllers;
 
 import Application.Inventory;
 import Application.SalesVanWarehouse;
-import Application.Warehouse;
 import Users.OfficeManager;
-import Users.WHManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
-
+/**
+ * Handles the gui for the OfficeManager
+ *
+ * @author Liam Caudill
+ */
 public class OfficeManagerController {
 
     OfficeManager currentUser = (OfficeManager) Main.userList.get(Main.userIndex);
@@ -34,6 +38,11 @@ public class OfficeManagerController {
     @FXML
     private TextArea examineTextArea;
 
+    /**
+     * Searches for Inventory by name; if there is a match, displays all the attributes of the part
+     * and where it can be found in the system.
+     */
+
     @FXML
     void doExamineName() {
 
@@ -41,8 +50,8 @@ public class OfficeManagerController {
         ArrayList<SalesVanWarehouse> inventory = Main.mainDB.getAllInventories();
         boolean exists = false;
 
-
         if (!examineTextField.getText().trim().equals("")) {
+
 
             temp = currentUser.examinePartName(examineTextField.getText(), Main.mainDB.getFleet().get(0).getDB());
 
@@ -51,12 +60,11 @@ public class OfficeManagerController {
                 temp = currentUser.examinePartName(examineTextField.getText(), w.getDB());
 
                 if (temp != null) {
-                    examineTextArea.appendText("Location: " + w.getName() + "\nPart Name: " + temp.getBikePart().getName() + ", ID: " + temp.getBikePart().getID() + ", Price: $"
-                            + temp.getBikePart().getPrice() + ", Sale Price: $" + temp.getBikePart().getSalePrice() + ", On Sale: "
-                            + temp.getBikePart().getIsOnSale() + ", Quantity: " + temp.getQuantity() + "\n");
+                    examineTextArea.appendText("\nLocation: " + w.getName() + "\n" + temp.appendTextFormat());
                     temp = null;
                     exists = true;
                 }
+
             }
 
             if (!exists) {
@@ -65,34 +73,79 @@ public class OfficeManagerController {
         } else examineTextArea.appendText("Please enter a BikePart name or ID.\n");
     }
 
+    /**
+     * Searches for Inventory by ID; if there is a match, displays all the attributes of the part
+     * and where it can be found in the system.
+     */
     @FXML
-    void doExamineID() {
+    void doExamineID() throws NumberFormatException {
 
-        Inventory temp;
+        Inventory temp = null;
         ArrayList<SalesVanWarehouse> inventory = Main.mainDB.getAllInventories();
         boolean exists = false;
 
         if (!examineTextField.getText().trim().equals("")) {
 
-            temp = currentUser.examinePartName(examineTextField.getText(), Main.mainDB.getFleet().get(0).getDB());
+            examineTextArea.appendText("\n");
+
+            try {
+                temp = currentUser.examinePartID(Long.parseLong(examineTextField.getText()), Main.mainDB.getFleet().get(0).getDB());
+
+            } catch (Exception e) {
+            }
 
             for (SalesVanWarehouse w : inventory) {
 
-                temp = currentUser.examinePartID(Long.parseLong(examineTextField.getText()), w.getDB());
+                try {
+                    temp = currentUser.examinePartID(Long.parseLong(examineTextField.getText()), w.getDB());
+                } catch (Exception e) {
+                }
 
                 if (temp != null) {
-                    examineTextArea.appendText("Location: " + w.getName() + "\nPart Name: " + temp.getBikePart().getName() + ", ID: " + temp.getBikePart().getID() + ", Price: $"
-                            + temp.getBikePart().getPrice() + ", Sale Price: $" + temp.getBikePart().getSalePrice() + ", On Sale: "
-                            + temp.getBikePart().getIsOnSale() + ", Quantity: " + temp.getQuantity() + "\n");
+                    examineTextArea.appendText("\nLocation: " + w.getName() + "\n" + temp.appendTextFormat());
                     temp = null;
                     exists = true;
                 }
+
             }
 
             if (!exists) {
-                examineTextArea.appendText("No part exists with the name " + examineTextField.getText() + ".\n");
+                examineTextArea.appendText("No part exists with the ID " + examineTextField.getText() + ".\n");
             }
         } else examineTextArea.appendText("Please enter a BikePart name or ID.\n");
+    }
+
+    /**
+     * Sorts BikeParts in every location by name, but keeps the inventories separate.
+     */
+    @FXML
+    void doSortName() {
+        ArrayList<SalesVanWarehouse> inventory = Main.mainDB.getAllInventories();
+
+        for (SalesVanWarehouse s : inventory) {
+            examineTextArea.appendText("\nLocation: " + s.getName() + "\n");
+            Collections.sort(s.getDB(), (p1, p2) -> p1.getBikePart().getName().compareToIgnoreCase(p2.getBikePart().getName()));
+            for (Inventory i : s.getDB()) {
+                examineTextArea.appendText(i.appendTextFormat());
+            }
+        }
+    }
+
+    /**
+     * Sorts BikeParts in every location by ID, but keeps the inventories separate.
+     */
+    @FXML
+    void doSortID() {
+        ArrayList<SalesVanWarehouse> inventory = Main.mainDB.getAllInventories();
+
+        for (SalesVanWarehouse s : inventory) {
+            examineTextArea.appendText("\nLocation: " + s.getName() + "\n");
+            Collections.sort(s.getDB(), (p1, p2) -> Long.compare(p1.getBikePart().getID(), p2.getBikePart().getID()));
+
+            for (Inventory i : s.getDB()) {
+                examineTextArea.appendText(i.appendTextFormat());
+            }
+        }
     }
 
     @FXML
@@ -104,33 +157,36 @@ public class OfficeManagerController {
     @FXML
     public TextField orderNameField;
 
+    /**
+     * Creates a serializable inventory file with the given name and with the quantities for each part
+     * set to a number such that, once read in, every part in the list will be at the quantity specified.
+     */
     @FXML
     void doOrderButton() {
 
         if (!orderQuantityField.getText().trim().equals("") && !orderNameField.getText().trim().equals("")) {
 
-            File tempFile = new File(("src/Files/"+orderNameField.getText()+".ser"));
+            File tempFile = new File(("src/Files/" + orderNameField.getText() + ".ser"));
             if (!tempFile.isFile()) {
 
                 ArrayList<Inventory> parts = currentUser.generatePartsOrder(Long.parseLong(orderQuantityField.getText()));
                 orderTextArea.appendText("Parts to be ordered:\n");
 
                 for (Inventory i : parts) {
-                    orderTextArea.appendText("Part Name: " + i.getBikePart().getName() + ", ID: " + i.getBikePart().getID() + ", Price: $"
-                            + i.getBikePart().getPrice() + ", Sale Price: $" + i.getBikePart().getSalePrice() + ", On Sale: "
-                            + i.getBikePart().getIsOnSale() + ", Quantity: " + i.getQuantity() + "\n");
+                    orderTextArea.appendText(i.appendTextFormat());
 
                 }
 
                 Main.writer.writeToFile(orderNameField.getText(), parts);
-                orderTextArea.appendText("Inventory file "+orderNameField.getText()+".ser created.\n");
-            } else{
-                orderTextArea.appendText("A file with the name "+orderNameField.getText()+" already exists.\n");
+                orderTextArea.appendText("Inventory file " + orderNameField.getText() + ".ser created.\n");
+            } else {
+                orderTextArea.appendText("A file with the name " + orderNameField.getText() + " already exists.\n");
 
             }
         } else {
             orderTextArea.appendText("Please fill out every field.\n");
         }
+
     }
 
     @FXML
@@ -146,11 +202,15 @@ public class OfficeManagerController {
     public TextField usernameTextField;
 
 
+    /**
+     * Generates the commission of an entered Sales Associate based off of the start and end
+     * date selected by summing the sale prices from invoices and deriving 15%
+     */
     @FXML
     void doFindDate() {
 
         int year = startDate.getValue().getYear();
-        int month = startDate.getValue().getMonthValue()-1;
+        int month = startDate.getValue().getMonthValue() - 1;
         int day = startDate.getValue().getDayOfMonth();
 
         Calendar calendar = Calendar.getInstance();
@@ -159,25 +219,44 @@ public class OfficeManagerController {
         Date start = calendar.getTime();
 
         year = endDate.getValue().getYear();
-        month = endDate.getValue().getMonthValue()-1;
+        month = endDate.getValue().getMonthValue() - 1;
         day = endDate.getValue().getDayOfMonth();
 
         calendar.set(year, month, day);
 
         Date end = calendar.getTime();
 
-        if(!start.after(end)){
+        if (!start.after(end)) {
 
-            commissionTextArea.appendText(currentUser.paySalesAssociate(usernameTextField.getText(),start,end));
-
+            commissionTextArea.appendText(currentUser.paySalesAssociate(usernameTextField.getText(), start, end) + " from " + start.toString() + " to "
+                    + end.toString() + ".\n");
 
 
         }
 
 
+    }
 
+    /**
+     * Returns the user to the login screen.
+     *
+     * @throws IOException Thrown if LoginController.fxml does not exist or is read in incorrectly.
+     */
 
-
+    @FXML
+    void doLogoutButton() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("LoginController.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        Stage appStage = new Stage();
+        appStage.setScene(scene);
+        appStage.show();
+        Main.writer.writeFiles();
+        commissionTextArea.getScene().getWindow().hide();
 
     }
 

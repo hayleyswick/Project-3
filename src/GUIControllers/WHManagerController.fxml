@@ -7,13 +7,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIControllers.WHManagerController">
+<AnchorPane prefHeight="400.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIControllers.WHManagerController">
     <children>
-        <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane prefHeight="400.0" prefWidth="647.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Examine Part">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="628.0">
                             <children>
                                 <TextField fx:id="examineTextField" layoutX="14.0" layoutY="14.0" promptText="BikePart Name or ID" />
                                 <MenuButton fx:id="examineMenuButton" layoutX="174.0" layoutY="14.0" mnemonicParsing="false" text="Examine">
@@ -22,7 +22,14 @@
                                         <MenuItem mnemonicParsing="false" onAction="#doExamineID" text="by ID " />
                                     </items>
                                 </MenuButton>
-                                <TextArea fx:id="examineTextArea" layoutX="14.0" layoutY="49.0" prefHeight="279.0" prefWidth="569.0" />
+                                <TextArea fx:id="examineTextArea" layoutX="6.0" layoutY="49.0" prefHeight="315.0" prefWidth="634.0" />
+                        <MenuButton layoutX="261.0" layoutY="14.0" mnemonicParsing="false" text="Sort">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#doSortName" text="by Name" />
+                            <MenuItem mnemonicParsing="false" onAction="#doSortID" text="by ID" />
+                          </items>
+                        </MenuButton>
+                        <Button layoutX="589.0" layoutY="4.0" mnemonicParsing="false" onAction="#doLogoutButton" text="Logout" />
                             </children></AnchorPane>
                     </content>
                 </Tab>
@@ -31,7 +38,7 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Button layoutX="170.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateInventory" text="Update" />
-                        <TextArea fx:id="updateInventoryArea" layoutX="14.0" layoutY="47.0" prefHeight="316.0" prefWidth="568.0" />
+                        <TextArea fx:id="updateInventoryArea" layoutX="7.0" layoutY="47.0" prefHeight="316.0" prefWidth="633.0" />
                         <TextField fx:id="updateInventoryName" layoutX="14.0" layoutY="14.0" promptText="Inventory Filename" />
                      </children></AnchorPane>
                     </content>

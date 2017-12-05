@@ -1,0 +1,5 @@
+Joe's Bike Shop,Joe
+3
+700-23SwhalbeTire,1234567894,51.00,40.50,true,1
+timePedals,1234567903,102.31,89.00,false,1
+frogPedalsTitanium,1234567904,142.31,130.00,false,1

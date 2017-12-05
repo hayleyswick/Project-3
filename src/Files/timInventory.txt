@@ -1,0 +1,5 @@
+11spFrontDerailuer,1234567899,61.00,50.50,true,10
+WTB_saddle,1234567890,33.00,25.58,false,15
+mensBibsMedium,1234567900,110.00,99.00,false,4
+womensHelmetSmall,1234567901,130.00,79.00,false,4
+spdPedals,1234567902,62.31,79.00,true,4

@@ -5,6 +5,11 @@ import Application.Inventory;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Shares the responsibility of examining parts with the Office Manager
+ * @author Liam Caudill
+ */
+
 public class WHManager extends User {
     static final long serialVersionUID = 6;
 
@@ -41,7 +46,5 @@ public class WHManager extends User {
         }
         return null;
     }
-
-    //public
 
 }

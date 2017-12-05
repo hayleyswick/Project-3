@@ -1,0 +1,5 @@
+Sam's Bike Shop,Sam
+3
+26inTube,1234567891,7,5.58,true,1
+timePedals,1234567903,102.31,89.00,false,1
+frogPedalsTitanium,1234567904,142.31,130.00,false,1

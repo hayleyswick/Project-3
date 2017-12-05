@@ -14,6 +14,11 @@ import java.util.Scanner;
 import Application.*;
 import GUIControllers.Main;
 
+/**
+ * This user is capable of loading parts from the main warehouse onto their van and selling them to bike shops.
+ *
+ * @author Will Jones
+ */
 public class SalesAssociate extends User {
 
     private ArrayList<SalesInvoice> invoices = new ArrayList<SalesInvoice>();
@@ -57,7 +62,6 @@ public class SalesAssociate extends User {
 
     public void addSalesVan(SalesVanWarehouse s) {
         this.s = s;
-        inventory.addAll(s.getDB());
     }
 
     public SalesVanWarehouse getS() {
@@ -68,9 +72,16 @@ public class SalesAssociate extends User {
         this.s = s;
     }
 
+    /**
+     * Given a .txt file, sells the parts specified within to the shop specified within and generates an invoice.
+     * @param fileOfPartsToSell Filename containing the part order.
+     * @return Returns the generated invoice.
+     * @throws FileNotFoundException Thrown if the file does not exist.
+     */
+
     public String sellToBikeShop(String fileOfPartsToSell) throws FileNotFoundException {
         ArrayList<Inventory> i = new ArrayList<Inventory>();
-        File f = new File("src/Files/" + fileOfPartsToSell);
+        File f = new File("src/Files/" + fileOfPartsToSell + ".txt");
         Scanner input = new Scanner(f);
         String shopAndOwner = input.nextLine();
         String bikeShopName = shopAndOwner.substring(0, shopAndOwner.indexOf(','));
@@ -93,10 +104,12 @@ public class SalesAssociate extends User {
         writeInvoices();
         return invoice.getInvoice();
 
-
     }
 
-
+    /**
+     * Given a filename, moves the specified parts from the Main Warehouse to the Sales Associate's van.
+     * @param filename Name of the file specifying the parts and quantity to move.
+     */
     public void moveParts(String filename) {
 
         ArrayList<Inventory> incomingInventory;
@@ -116,6 +129,10 @@ public class SalesAssociate extends User {
 
                 if (idxAndQuantity == null) {
                     s.addInventory(i);
+                    temp = Main.mainDB.getDB().get((int) mainQuantity[0]);
+                    Main.mainDB.updateInventory(temp, mainQuantity[1] - i.getQuantity(), true, Main.mainDB.getDB());
+
+
                 } else {
                     temp = Main.mainDB.getDB().get((int) idxAndQuantity[0]);
 
@@ -129,10 +146,14 @@ public class SalesAssociate extends User {
     }
 
 
+
     public ArrayList<SalesInvoice> getInvoices() {
         return invoices;
     }
 
+    /**
+     * Writes the Sales Associate's invoices to a serializable file.
+     */
     public void writeInvoices() {
         File invoiceList = new File("src/Files/invoices.ser");
         ArrayList<SalesInvoice> totalInvoices = new ArrayList<SalesInvoice>();

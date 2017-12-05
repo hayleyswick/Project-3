@@ -1,0 +1,7 @@
+Simon's Stupendous Specialty Shop,Simon
+5
+mountainFork29,1234567912,223.00,195.00,false,1
+26inTube,1234567891,7.00,5.58,true,1
+10spFrontDerailuer,1234567897,41.00,31.50,true,1
+seatPost,1234567892,17.00,1.23,true,1
+700-25SwhalbeTire,1234567895,51.00,40.50,true,1

@@ -12,6 +12,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Handles the gui for logging a user in
+ *
+ * @author Liam Caudill
+ */
+
 public class LoginController {
 
 
@@ -28,9 +34,16 @@ public class LoginController {
     @FXML
     private TextArea loginOutput;
 
+    /**
+     * Logs in user and directs them to appropriate window for
+     * their User type if the entered Username and Password are correct.
+     *
+     * @throws IOException Thrown if file writing process results in error.
+     */
     @FXML
     void doLoginButton() throws IOException {
 
+        Main.writer.writeFiles();
         Main.userIndex = -1;
 
         Stage loadStage = (Stage) loginButton.getScene().getWindow();

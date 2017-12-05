@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIControllers.SalesAssociateController">
+<AnchorPane prefHeight="400.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIControllers.SalesAssociateController">
     <children>
-        <TextField fx:id="textField" layoutX="31.0" layoutY="52.0" promptText="Enter File Name" />
-        <Button fx:id="button" layoutX="350.0" layoutY="52.0" mnemonicParsing="false" onAction="#Go" prefHeight="27.0" prefWidth="88.0" text="Sell" />
-        <TextArea fx:id="textArea" layoutX="31.0" layoutY="93.0" prefHeight="269.0" prefWidth="539.0" />
-        <ComboBox fx:id="choice" layoutX="198.0" layoutY="52.0" onAction="#setButton" onMouseDragged="#setButton" onShown="#setBox" prefHeight="27.0" prefWidth="152.0" promptText="Sell to bike shop" />
+      <TabPane prefHeight="400.0" prefWidth="619.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Sell/Load">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                          <Button fx:id="button" layoutX="340.0" layoutY="14.0" mnemonicParsing="false" onAction="#Go" prefHeight="27.0" prefWidth="67.0" text="Sell" />
+                          <TextField fx:id="textField" layoutX="14.0" layoutY="15.0" promptText="Enter File Name" />
+                          <TextArea fx:id="textArea" editable="false" layoutX="5.0" layoutY="46.0" prefHeight="322.0" prefWidth="610.0" />
+                          <ComboBox fx:id="choice" layoutX="176.0" layoutY="14.0" onAction="#setButton" onMouseDragged="#setButton" onShown="#setBox" prefHeight="27.0" prefWidth="149.0" promptText="Sell to Bike Shop" />
+                        <Button disable="true" layoutX="467.0" layoutY="15.0" mnemonicParsing="false" onAction="#doTest" text="Button" visible="false" />
+                        <Button layoutX="420.0" layoutY="14.0" mnemonicParsing="false" onAction="#viewInventory" prefHeight="27.0" text="View Inventory" />
+                        <Button layoutX="561.0" layoutY="15.0" mnemonicParsing="false" onAction="#doLogoutButton" text="Logout" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="View Invoices">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="invoiceTextArea" layoutX="6.0" layoutY="85.0" prefHeight="282.0" prefWidth="606.0" />
+                        <DatePicker fx:id="startDate" layoutX="48.0" layoutY="14.0" />
+                        <DatePicker fx:id="endDate" layoutX="48.0" layoutY="53.0" />
+                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start:" />
+                        <Text layoutX="17.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End:" />
+                        <Button layoutX="238.0" layoutY="14.0" mnemonicParsing="false" onAction="#doFindDate" text="View" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
     </children>
 </AnchorPane>

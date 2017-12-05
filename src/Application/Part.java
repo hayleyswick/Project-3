@@ -1,8 +1,8 @@
 package Application;
 
 /** Part interface that BikePart implements
-* 
-*/
+ *
+ */
 public interface Part
 {
     public String getName();

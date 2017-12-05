@@ -2,48 +2,30 @@ package Application;
 
 import java.io.Serializable;
 
-/** Keeps track of quantity of bike parts
- * 
- * @author Hayley Swick
- *
- */
-public class Inventory extends BikePart implements Serializable {
+public class Inventory extends BikePart implements Serializable,Comparable<Inventory>{
 
     private BikePart bp;
     private long quantity;
     static final long serialVersionUID = 2;
+    /**
+     * Keeps track of the quantity for a BikePart
+     *
+     * @author Hayley Swick
+     */
 
-/** Default constructor
- * 
- */
+
     public Inventory() {
     }
 
-    /** Constructs new Inventory based on bike part information and quantity
-     * 
-     * @param part
-     * @param x
-     */
     public Inventory(BikePart part, long x) {
         this.bp = part;
         this.quantity = x;
     }
 
-    /** Returns bike part information of Inventory
-     * 
-     * @return
-     */
     public BikePart getBikePart() {
         return bp;
     }
 
-    /** Updates bike part in Inventory
-     * 
-     * @param p
-     * @param s
-     * @param iOS
-     * @param x
-     */
     public void updateBikePart(double p, double s, boolean iOS, long x) {
         bp.setPrice(p);
         bp.setSalePrice(s);
@@ -52,38 +34,42 @@ public class Inventory extends BikePart implements Serializable {
 
     }
 
-    /** Checks to see if parts in inventory are equal
-     * 
-     * @param other
-     * @return
-     */
     public boolean equals(Inventory other) {
         return getBikePart().getID() == other.getBikePart().getID();
     }
 
-    /** Returns quantity of bike parts
-     * 
-     * @return
-     */
     public long getQuantity() {
         return quantity;
     }
 
-    /** Updates quantity of bike parts
-     * 
-     * @param x
-     */
     public void setQuantity(long x) {
         this.quantity = x;
 
     }
 
-    /** Converts inventory object to a string
-     * 
+    /**
+     *
+     * @return Returns elements of Inventory class as a String separated by ,
      */
+
     public String toString()
     {
         return bp.getName()+","+bp.getID()+","+bp.getCost()+","+bp.getSalePrice()+","+bp.getIsOnSale()+","+quantity+"\n";
     }
 
+    /**
+     *
+     * @return Returns a reoccurring string format used in the printing of an Inventory part to a TextArea.
+     */
+
+    public String appendTextFormat(){
+        return ("Part Name: " + this.getBikePart().getName() + ", ID: " + this.getBikePart().getID() + ", Price: $"
+                + this.getBikePart().getPrice() + ", Sale Price: $" + this.getBikePart().getSalePrice() + ", On Sale: "
+                + this.getBikePart().getIsOnSale() + ", Quantity: " + this.getQuantity() + "\n");
+    }
+
+    @Override
+    public int compareTo(Inventory o) {
+        return Long.compare(this.getBikePart().getID(),o.getBikePart().getID());
+    }
 }

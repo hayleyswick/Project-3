@@ -1,16 +1,17 @@
 package GUIControllers;
 
+import Application.Inventory;
+import Application.MainWareHouse;
+import Application.SalesVanWarehouse;
 import Users.*;
-import Application.*;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -30,9 +31,12 @@ public class Main extends Application {
     public void start(Stage loginStage) throws Exception {
 
         ObjectInputStream objectinputstream = null;
-        boolean test = false;
+        /*Set this boolean to true and delete the invoices.ser file in src/Files if you wish to start fresh.
+        Otherwise, keep this on false to properly read in files at launch.
+        */
+        boolean setup = false;
 
-        if (!test) {
+        if (!setup) {
             try {
                 FileInputStream streamIn = new FileInputStream("src/Files/DBinventory.ser");
                 objectinputstream = new ObjectInputStream(streamIn);
@@ -55,46 +59,63 @@ public class Main extends Application {
         }
 
 
-        if (test) {
+        if (setup) {
             SalesVanWarehouse van1 = new SalesVanWarehouse("Tim's Van");
+            SalesVanWarehouse van2 = new SalesVanWarehouse("David's Van");
+            SalesVanWarehouse van3 = new SalesVanWarehouse("Julia's Van");
+            mainDB.generateInitialDatabase(van1,"timInventory.txt");
+            mainDB.generateInitialDatabase(van2,"davidInventory.txt");
+            mainDB.generateInitialDatabase(van3,"juliaInventory.txt");
+
+
 
             SysAdmin defaultAdmin = new SysAdmin("admin", "minda",
-                    "admin@gmail.com", "John", "Roberts", "7035551375");
+                    "admin@gmail.com", "John", "Roberts", "2515469442");
             OfficeManager testOfficeManager = new OfficeManager("bross", "test1",
-                    "b.ross@gmail.com", "Betsy", "Ross", "5911522255");
+                    "b.ross@gmail.com", "Betsy", "Ross", "6304468851");
             WHManager testWHManager = new WHManager("toast", "test2",
-                    "j.norton@gmail.com", "James", "Norton", "7032210905");
-            SalesAssociate testSalesAssociate = new SalesAssociate(new User("s", "s",
-                    "test@gmail.com", "Tim", "Simpson", "7037328121"), van1);
-            User testUser = new User("user", "test4",
-                    "test@gmail.com", "joe", "schmoe", "7037328121");
+                    "j.norton@gmail.com", "James", "Norton", "2269062721");
+            SalesAssociate testSalesAssociate = new SalesAssociate(new User("timps", "test3",
+                    "t.simpson@gmail.com", "Tim", "Simpson", "1255464478"), van1);
+            SalesAssociate testSalesAssociate2 = new SalesAssociate(new User("smithy", "test4",
+                    "d.smith@gmail.com", "David", "Smith", "9495694371"), van2);
+            SalesAssociate testSalesAssociate3 = new SalesAssociate(new User("jj", "test5",
+                    "test@gmail.com", "Julia", "Johnson", "6719251352"), van3);
 
-            Inventory testInv1 = new Inventory(new BikePart("test1", 123, 10, 5, false), 5);
-            Inventory testInv2 = new Inventory(new BikePart("test2", 456, 10, 5, false), 5);
-            Inventory testInv3 = new Inventory(new BikePart("test3", 789, 10, 5, true), 5);
-            Inventory testInv4 = new Inventory(new BikePart("test4", 000, 10, 5, false), 5);
-            writer.writeToFile("testSell",testInv4);
+            mainDB.addWarehouse(testSalesAssociate.getS());
+            mainDB.addWarehouse(testSalesAssociate2.getS());
+            mainDB.addWarehouse(testSalesAssociate3.getS());
 
-            mainDB.addInventory(testInv1);
-            mainDB.addInventory(testInv2);
-            mainDB.addInventory(testInv3);
-            van1.addInventory(testInv4);
-            van1.addInventory(testInv1);
-            mainDB.addWarehouse(van1);
+            mainDB.generateInitialDatabase(Main.mainDB,"initialInventory.txt");
 
+            /*
+            ArrayList<Inventory> loadVan = new ArrayList<>();
+            Inventory temp = mainDB.getDB().get(0);
+            temp.setQuantity(4);
+            loadVan.add(temp);
+            temp = mainDB.getDB().get(5);
+            temp.setQuantity(3);
+            loadVan.add(temp);
+            temp = mainDB.getDB().get(2);
+            temp.setQuantity(2);
+            loadVan.add(temp);
+            temp = mainDB.getDB().get(7);
+            temp.setQuantity(3);
+            loadVan.add(temp);
+            temp = mainDB.getDB().get(9);
+            temp.setQuantity(1);
+            loadVan.add(temp);
+            writer.writeToFile("loadVan",loadVan);
+*/
             userList.add(defaultAdmin);
             userList.add(testOfficeManager);
             userList.add(testWHManager);
             userList.add(testSalesAssociate);
-            userList.add(testUser);
+            userList.add(testSalesAssociate2);
+            userList.add(testSalesAssociate3);
+
 
         }
-
-
-        System.out.println("Name: " + mainDB.getDB().get(0).getBikePart().getName() + ", ID: " + mainDB.getDB().get(0).getBikePart().getID() + ", Price: $"
-                + mainDB.getDB().get(0).getBikePart().getPrice() + ", Sale Price: $" + mainDB.getDB().get(0).getBikePart().getSalePrice() + ", On Sale: "
-                + mainDB.getDB().get(0).getBikePart().getIsOnSale() + ", Quantity: " + mainDB.getDB().get(0).getQuantity() + ".\n");
-
 
         Parent root = FXMLLoader.load(getClass().getResource("LoginController.fxml"));
         loginStage.setTitle("User Login");

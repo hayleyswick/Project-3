@@ -5,20 +5,23 @@ import Users.SalesAssociate;
 import Users.SysAdmin;
 import Users.User;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
+/**
+ * Handles the gui for the System Admin
+ *
+ * @author Liam Caudill
+ */
 
 public class SysAdminController {
 
@@ -56,6 +59,9 @@ public class SysAdminController {
     @FXML
     private Button createButton;
 
+    /**
+     * Creates either a default user, or a specific user, based on the selected choices.
+     */
     @FXML
     void doCreateButton() {
         boolean exists = false;
@@ -64,15 +70,16 @@ public class SysAdminController {
                 || createFirstName.getText().trim().equals("") || createLastName.getText().trim().equals("") ||
                 createEmail.getText().trim().equals("") || createPhoneNumber.getText().trim().equals("")) {
 
+            /*
             for (int i = 0; i < Main.userList.size(); i++) {
                 createOutput.appendText(Main.userList.get(i).getUsername() + "\n");
 
-
+            //Use this to see a list of all users and all vans
             }
             for (int i = 0; i < Main.mainDB.getFleet().size(); i++) {
-                SalesVanWarehouse t = (SalesVanWarehouse) Main.mainDB.getFleet().get(i);
-                createOutput.appendText(t.getName() + "\n");
+                createOutput.appendText(Main.mainDB.getFleet().get(i).getName() + "\n");
             }
+            */
 
             createOutput.appendText("Please fill out all the required fields.\n");
 
@@ -100,27 +107,30 @@ public class SysAdminController {
 
                 case "System Admin":
                     currentUser.addSysAdmin(newUser);
+                    createOutput.appendText("System Admin " + newUser.getUsername() + " created.\n");
                     Main.writer.writeFiles();
                     break;
 
                 case "Office Manager":
                     currentUser.addOfficeManager(newUser);
+                    createOutput.appendText("Office Manager " + newUser.getUsername() + " created.\n");
                     Main.writer.writeFiles();
-
                     break;
 
                 case "Warehouse Manager":
                     currentUser.addWHManager(newUser);
+                    createOutput.appendText("Warehouse Manager " + newUser.getUsername() + " created.\n");
                     Main.writer.writeFiles();
-
                     break;
 
                 case "Sales Associate":
-                    currentUser.addSalesAssociate(newUser);
-                    SalesAssociate sales = (SalesAssociate)currentUser.findUser(newUser);
-                    SalesVanWarehouse temp = new SalesVanWarehouse(createVanName.getText());
-                    Main.mainDB.addWarehouse(temp);
-                    Main.writer.writeFiles();
+                    if (!createVanName.getText().trim().equals("")) {
+                        SalesVanWarehouse temp = new SalesVanWarehouse(createVanName.getText());
+                        currentUser.addSalesAssociate(newUser, temp);
+                        Main.mainDB.addWarehouse(temp);
+                        createOutput.appendText("Sales Associate " + newUser.getUsername() + " created.\n");
+                        Main.writer.writeFiles();
+                    }
                     break;
 
             }
@@ -141,12 +151,9 @@ public class SysAdminController {
     @FXML
     private TextField deleteUsername;
 
-    @FXML
-    private Button deleteButton;
-
-    @FXML
-    private TextArea deleteTextArea;
-
+    /**
+     * Deletes a user from the list based off of the entered username.
+     */
     @FXML
     void doDeleteButton() {
 
@@ -156,11 +163,11 @@ public class SysAdminController {
         switch (deleteUsername.getText().trim()) {
 
             case "":
-                deleteTextArea.appendText("Please enter the username of the user you wish to delete.\n");
+                createOutput.appendText("Please enter the username of the user you wish to delete.\n");
                 break;
 
             case "admin":
-                deleteTextArea.appendText("You cannot delete this account.\n");
+                createOutput.appendText("You cannot delete this account.\n");
                 break;
 
             default:
@@ -173,18 +180,27 @@ public class SysAdminController {
 
                 }
                 if (exists == false) {
-                    deleteTextArea.appendText("User does not exist.\n");
+                    createOutput.appendText("User does not exist.\n");
 
                 } else {
-                    deleteTextArea.appendText("User " + Main.userList.get(index).getUsername() + " has been deleted.\n");
-                    Main.userList.remove(index);
+                    if (Main.userList.get(index).getClass().toString().equals("class Users.SalesAssociate")) {
+                        SalesAssociate temp = (SalesAssociate) Main.userList.get(index);
+                        for (int i = 0; i < Main.mainDB.getFleet().size(); i++) {
+                            if (Main.mainDB.getFleet().get(i).getName().equals(temp.getS().getName())) {
+                                Main.mainDB.getFleet().remove(i);
+                            }
+                        }
+                        createOutput.appendText("User " + Main.userList.get(index).getUsername() + " has been deleted.\n");
+                        Main.userList.remove(index);
+                    } else {
+                        createOutput.appendText("User " + Main.userList.get(index).getUsername() + " has been deleted.\n");
+                        Main.userList.remove(index);
+                    }
 
                 }
                 Main.writer.writeFiles();
                 break;
         }
-
-
     }
 
 
@@ -212,39 +228,27 @@ public class SysAdminController {
         deleteUsernameColumn.setCellValueFactory(new PropertyValueFactory("Username"));
     }
 
-
-    /*
-
-    {
-
-        FileOutputStream fout = null;
-        ObjectOutputStream oos = null;
-
-        try {
-            fout = new FileOutputStream("src/GUIControllers/DBinventory.ser");
-            oos = new ObjectOutputStream(fout);
-            oos.writeObject(Main.mainDB.getDB());
-            fout = new FileOutputStream("src/GUIControllers/fleet.ser");
-            oos = new ObjectOutputStream(fout);
-            oos.writeObject(Main.mainDB.getTotalInventory());
-            fout = new FileOutputStream("src/GUIControllers/users.ser");
-            oos = new ObjectOutputStream(fout);
-            oos.writeObject(Main.userList);
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            if (oos != null) {
-                try {
-                    oos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+    /**
+     * Returns the user to the login screen.
+     *
+     * @throws IOException Thrown if LoginController.fxml does not exist or is read in incorrectly.
      */
 
+    @FXML
+    void doLogoutButton() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("LoginController.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        Stage appStage = new Stage();
+        appStage.setScene(scene);
+        appStage.show();
+        Main.writer.writeFiles();
+        createUserChoice.getScene().getWindow().hide();
+
+    }
 
 }

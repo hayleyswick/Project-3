@@ -6,10 +6,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/** Warehouse used for selling bike parts
- * 
- * @author Hayley Swick
+/**
+ * Warehouse used for selling bike parts
  *
+ * @author Hayley Swick
  */
 public class SalesVanWarehouse extends Warehouse implements Serializable {
 
@@ -17,8 +17,9 @@ public class SalesVanWarehouse extends Warehouse implements Serializable {
     private String name;
     static final long serialVersionUID = 34567;
 
-    /** Constructor based on name
-     * 
+    /**
+     * Constructor based on name
+     *
      * @param n
      */
     public SalesVanWarehouse(String n) {
@@ -26,24 +27,27 @@ public class SalesVanWarehouse extends Warehouse implements Serializable {
         this.setName(n);
     }
 
-    /** Sets the name
-     * 
+    /**
+     * Sets the name
+     *
      * @param name
      */
     public void setName(String name) {
         this.name = name;
     }
 
-    /** Returns the name
-     * 
+    /**
+     * Returns the name
+     *
      * @return
      */
     public String getName() {
         return name;
     }
 
-    /** Moves parts between warehouses
-     * 
+    /**
+     * Moves parts between warehouses
+     *
      * @param w
      * @param partName
      * @param quantity
@@ -52,7 +56,7 @@ public class SalesVanWarehouse extends Warehouse implements Serializable {
         ArrayList<Inventory> wI = new ArrayList<Inventory>();
         wI.addAll(w.getDB()); //creates copy of database of w
         for (Inventory i1 : wI) {
-            if (partName.equals(i1.getBikePart().getName())) { 
+            if (partName.equals(i1.getBikePart().getName())) {
                 this.addPart(i1.getBikePart(), quantity); //moves parts
                 i1.setQuantity(i1.getQuantity() - quantity); //decrements quantity
             }
@@ -60,8 +64,9 @@ public class SalesVanWarehouse extends Warehouse implements Serializable {
     }
 
 
-    /** Sells a part by number
-     * 
+    /**
+     * Sells a part by number
+     *
      * @param id
      * @param x
      */

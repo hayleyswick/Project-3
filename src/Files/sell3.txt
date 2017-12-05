@@ -1,0 +1,4 @@
+Rebecca's Rad Retail,Becca
+2
+10spFrontDerailuer,1234567897,41.00,31.50,true,1
+seatPost,1234567892,17.00,1.23,true,1

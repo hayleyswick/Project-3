@@ -4,6 +4,10 @@ import GUIControllers.Main;
 
 import java.io.Serializable;
 
+/**
+ * The basic building block for all other users.
+ * @author Liam Caudill
+ */
 public class User implements Serializable {
 
     private String username;
@@ -81,14 +85,4 @@ public class User implements Serializable {
         } else
             return false;
     }
-    /*
-    public boolean checkUser(String username){
-        for()
-
-    }
-    */
-
-
-
-
 }

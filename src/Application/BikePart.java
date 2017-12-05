@@ -21,7 +21,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Default constructor
      *
-     * @param
      * @return void
      */
     public BikePart() {
@@ -32,7 +31,7 @@ public class BikePart implements Part, Cloneable, Serializable {
      * Stores bike part information from a line of text.
      * Throws exception if line is not in proper format.
      *
-     * @param String
+     * @param n,id,p,s,iOS
      * @return void
      * @throws Exception
      */
@@ -48,7 +47,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Returns the name of a bike part
      *
-     * @param none
      * @return String
      */
     public String getName() {
@@ -58,7 +56,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Returns the number of a bike part
      *
-     * @param none
      * @return String
      */
     public long getID() {
@@ -69,7 +66,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Returns the list price of a bike part
      *
-     * @param none
      * @return double
      */
     public double getPrice() {
@@ -79,7 +75,7 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Sets the list price of a bike part
      *
-     * @param double
+     * @param p
      * @return void
      */
     public void setPrice(double p) {
@@ -89,7 +85,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Returns the sale price of a bike part
      *
-     * @param none
      * @return double
      */
     public double getSalePrice() {
@@ -99,7 +94,7 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Sets the sale price of a bike part
      *
-     * @param double
+     * @param salePrice
      * @return void
      */
     public void setSalePrice(double salePrice) {
@@ -109,7 +104,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Returns whether a part is on sale.
      *
-     * @param none
      * @return boolean
      */
     public boolean getIsOnSale() {
@@ -119,7 +113,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Sets whether a part is on sale
      *
-     * @param String
      * @return void
      */
     public void setIsOnSale(boolean iOS) {
@@ -130,7 +123,6 @@ public class BikePart implements Part, Cloneable, Serializable {
      * Returns the cost of a bike part, taking
      * into account whether it is on sale.
      *
-     * @param none
      * @return double
      */
     public double getCost() {
@@ -143,7 +135,6 @@ public class BikePart implements Part, Cloneable, Serializable {
     /**
      * Converts a BikePart into a String.
      *
-     * @param none
      * @return String
      */
     public String toString() {
@@ -155,10 +146,10 @@ public class BikePart implements Part, Cloneable, Serializable {
         return s;
     }
 
+
     /**
      * Clones a bike part
      *
-     * @param none
      * @return BikePart
      */
     public BikePart getClone() {

@@ -1,0 +1,6 @@
+Barbara's Bodacious Boutique,Barb
+4
+11spFrontDerailuer,1234567899,61.00,50.50,true,1
+WTB_saddle,1234567890,33.00,25.58,false,1
+mensBibsMedium,1234567900,110.00,99.00,false,1
+womensHelmetSmall,1234567901,130.00,79.00,false,1

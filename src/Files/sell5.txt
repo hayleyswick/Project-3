@@ -1,0 +1,5 @@
+Mark's Mega Market,Mark
+3
+zarminComputer,1234567908,543.21,480.00,false,1
+womensBibsMedium,1234567909,110.00,99.00,false,1
+womensJacketMedium,1234567911,120.00,95.00,false,1

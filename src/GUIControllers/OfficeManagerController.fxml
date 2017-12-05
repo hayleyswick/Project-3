@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIControllers.OfficeManagerController">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+<AnchorPane prefHeight="400.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIControllers.OfficeManagerController">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="400.0" prefWidth="644.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Examine Part">
             <content>
@@ -22,7 +18,14 @@
                             <MenuItem mnemonicParsing="false" onAction="#doExamineID" text="by ID " />
                           </items>
                         </MenuButton>
-                        <TextArea fx:id="examineTextArea" layoutX="14.0" layoutY="49.0" prefHeight="279.0" prefWidth="569.0" />
+                        <TextArea fx:id="examineTextArea" editable="false" layoutX="6.0" layoutY="49.0" prefHeight="323.0" prefWidth="633.0" />
+                        <MenuButton layoutX="263.0" layoutY="14.0" mnemonicParsing="false" text="Sort">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#doSortName" text="by Name" />
+                            <MenuItem mnemonicParsing="false" onAction="#doSortID" text="by ID" />
+                          </items>
+                        </MenuButton>
+                        <Button layoutX="578.0" layoutY="14.0" mnemonicParsing="false" onAction="#doLogoutButton" text="Logout" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -31,7 +34,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TextField fx:id="orderQuantityField" layoutX="14.0" layoutY="14.0" promptText="Minimum Quantity" />
-                        <TextArea fx:id="orderTextArea" layoutX="14.0" layoutY="46.0" prefHeight="314.0" prefWidth="572.0" />
+                        <TextArea fx:id="orderTextArea" editable="false" layoutX="5.0" layoutY="46.0" prefHeight="314.0" prefWidth="634.0" />
                         <TextField fx:id="orderNameField" layoutX="171.0" layoutY="14.0" promptText="Filename" />
                         <Button layoutX="329.0" layoutY="14.0" mnemonicParsing="false" onAction="#doOrderButton" text="Generate Order" />
                      </children></AnchorPane>
@@ -47,7 +50,7 @@
                         <Text layoutX="23.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End" />
                         <Button layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#doFindDate" text="Generate" />
                         <TextField fx:id="usernameTextField" layoutX="282.0" layoutY="67.0" />
-                        <TextArea fx:id="commissionTextArea" layoutX="22.0" layoutY="107.0" prefHeight="252.0" prefWidth="561.0" />
+                        <TextArea fx:id="commissionTextArea" editable="false" layoutX="4.0" layoutY="107.0" prefHeight="260.0" prefWidth="635.0" />
                      </children>
                   </AnchorPane>
               </content>

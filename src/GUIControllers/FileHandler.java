@@ -1,12 +1,20 @@
 package GUIControllers;
 
-import Application.Inventory;
-
 import java.io.*;
-import java.util.ArrayList;
+
+/**
+ * Handles most of the file i/o for the entire program
+ *
+ * @author Liam Caudill
+ */
 
 public class FileHandler {
 
+    /**     *
+     * Writes the current values of the datamembers stored
+     * in the arrays of Main to their appropriate files when
+     * this method is called
+     */
 
     public void writeFiles() {
         FileOutputStream fout = null;
@@ -37,6 +45,13 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Writes a serializable file for any given object that implements serializable.
+     *
+     * @param filename The filename to be written to.
+     * @param o Object to be serialized and inserted to a file.
+     */
+
     public void writeToFile(String filename, Object o) {
 
         FileOutputStream fout = null;
@@ -61,6 +76,12 @@ public class FileHandler {
 
 
     }
+
+    /**
+     * Reads in an object from a serializable file.
+     * @param filename Filename that the object is being read in from.
+     * @return Object read in from file.
+     */
 
     public Object readFromFile(String filename) {
 
